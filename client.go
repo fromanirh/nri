@@ -13,6 +13,10 @@ import (
 	"github.com/containerd/containerd/oci"
 	types "github.com/containerd/nri/types/v1"
 	"github.com/pkg/errors"
+
+	"github.com/containerd/containerd/log"
+	"runtime/debug"
+	"strings"
 )
 
 const (
@@ -65,6 +69,13 @@ func (c *Client) Invoke(ctx context.Context, task containerd.Task, state types.S
 
 // Invoke the ConfList of nri plugins
 func (c *Client) InvokeWithSandbox(ctx context.Context, task containerd.Task, state types.State, sandbox *Sandbox) ([]*types.Result, error) {
+	log.G(ctx).Infof("InvokeWithSandbox: version %s, found %d plugins",
+		c.conf.Version, len(c.conf.Plugins))
+	for i, p := range c.conf.Plugins {
+		log.G(ctx).Infof("  - plugin #%d: type %q, config %q",
+			i, p.Type, p.Conf)
+	}
+
 	if len(c.conf.Plugins) == 0 {
 		return nil, nil
 	}
@@ -89,6 +100,9 @@ func (c *Client) InvokeWithSandbox(ctx context.Context, task containerd.Task, st
 	}
 	for _, p := range c.conf.Plugins {
 		r.Conf = p.Conf
+		for _, line := range strings.Split(string(debug.Stack()), "\n") {
+			log.G(ctx).Infof("NRI client call stack: %s", line)
+		}
 		result, err := c.invokePlugin(ctx, p.Type, r)
 		if err != nil {
 			return nil, errors.Wrapf(err, "plugin: %s", p.Type)
