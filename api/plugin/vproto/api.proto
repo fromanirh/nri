@@ -30,6 +30,33 @@ option (gogoproto.goproto_sizecache_all) = false;
 option (gogoproto.goproto_getters_all) = true;
 
 
+service Runtime {
+  // AdjustContainers is an unsolicited update to containers initiated by the plugin.
+  rpc AdjustContainers(AdjustContainersRequest) returns(AdjustContainersResponse);
+  // XXX a temporary dummy request to test connection multiplexing.
+  rpc Ping(PingRequest) returns(PingResponse);
+}
+
+// AdjustContainersRequest describes container adjustments requested by a plugin.
+message AdjustContainersRequest {
+  repeated ContainerUpdate updates = 1;
+}
+
+// AdjustContainersResponse contains container adjustments that failed.
+message AdjustContainersResponse {
+  repeated ContainerUpdate failed = 1;
+}
+
+message PingRequest {
+  uint32 request_number = 1;
+  string msg = 2;
+}
+
+message PingResponse {
+  uint32 request_number = 1;
+  string msg = 2;
+}
+
 //
 // Plugin is the ttRPC service than NRI plugins must implement.
 //
