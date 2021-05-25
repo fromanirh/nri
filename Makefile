@@ -22,6 +22,12 @@ TTRPC_MODULES = $(foreach mod,$(PROTO_MODULE),--gogottrpc_opt=M$(mod))
 TTRPC_OPTIONS = $(TTRPC_INCLUDE) $(TTRPC_MODULES) --gogottrpc_opt=paths=source_relative
 TTRPC_COMPILE = protoc $(TTRPC_OPTIONS)
 
+GO_CMD     := go
+GO_MODULES := $(shell $(GO_CMD) list ./...)
+GO_FMT      = gofmt
+GO_VET      = $(GO_CMD) vet -tags $(TEST_TAGS)
+GO_CILINT   = golangci-lint
+
 all: build
 
 build: protos
@@ -36,3 +42,16 @@ protos: $(PROTO_GOFILES)
 
 install-ttrpc-plugin:
 	go install github.com/containerd/ttrpc/cmd/protoc-gen-gogottrpc
+
+format fmt:
+	@report=`$(GO_FMT) -s -d -w $$(find . -name \*.go)`; \
+	if [ -n "$$report" ]; then \
+	    echo "$$report"; \
+	    exit 1; \
+	fi
+
+vet:
+	@$(GO_VET) $(GO_MODULES)
+
+ci-lint:
+	@$(GO_CILINT) run $(GO_CILINT_RUNFLAGS) $(GO_CILINT_CHECKERS)
