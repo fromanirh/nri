@@ -15,7 +15,7 @@
 PROTO_SOURCES = $(shell find . -name '*.proto' | grep -v /vendor/)
 PROTO_GOFILES = $(patsubst %.proto,%.pb.go,$(PROTO_SOURCES))
 PROTO_INCLUDE = $(HOME)/go/src $(shell go env GOPATH)/src
-PROTO_MODULES = gogoproto/gogo.proto=github.com/gogo/protobuf/gogoproto
+PROTO_MODULES = # gogoproto/gogo.proto=github.com/gogo/protobuf/gogoproto
 
 TTRPC_INCLUDE = $(foreach dir,$(PROTO_INCLUDE),-I$(dir))
 TTRPC_MODULES = $(foreach mod,$(PROTO_MODULE),--gogottrpc_opt=M$(mod))
