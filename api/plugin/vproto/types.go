@@ -17,7 +17,6 @@
 package vproto
 
 import (
-	protobuf "github.com/golang/protobuf/ptypes/empty"
 	cri "k8s.io/cri-api/pkg/apis/runtime/v1alpha2"
 )
 
@@ -36,19 +35,19 @@ type (
 	HugepageLimit = cri.HugepageLimit
 
 	// RunPodSandboxResponse is empty. Plugins can't respond with changes to the request.
-	RunPodSandboxResponse = protobuf.Empty
+	RunPodSandboxResponse = Empty
 	// StopPodSandboxResponse is empty. Plugins can't respond with changes to the request.
-	StopPodSandboxResponse = protobuf.Empty
+	StopPodSandboxResponse = Empty
 	// RemovePodSandboxResponse is empty. Plugins can't respond with changes to the request.
-	RemovePodSandboxResponse = protobuf.Empty
+	RemovePodSandboxResponse = Empty
 	// StartContainerResponse is empty. Plugins can't respond with changes to the request.
-	StartContainerResponse = protobuf.Empty
+	StartContainerResponse = Empty
 	// RemoveContainerResponse is empty. Plugins can't respond with changes to the request.
-	RemoveContainerResponse = protobuf.Empty
+	RemoveContainerResponse = Empty
 	// ShutdownRequest is empty.
-	ShutdownRequest = protobuf.Empty
+	ShutdownRequest = Empty
 	// ShutdownResponse is empty.
-	ShutdownResponse = protobuf.Empty
+	ShutdownResponse = Empty
 )
 
 // nolint

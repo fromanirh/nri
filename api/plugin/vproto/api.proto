@@ -17,16 +17,12 @@
 syntax = "proto3";
 
 import "github.com/gogo/protobuf/gogoproto/gogo.proto";
-import "google/protobuf/empty.proto";
 import "k8s.io/cri-api/pkg/apis/runtime/v1alpha2/api.proto";
 
 package vproto;
 
 option go_package = "github.com/containerd/nri/api/plugin/vproto;vproto";
 
-option (gogoproto.goproto_unkeyed_all) = false;
-option (gogoproto.goproto_unrecognized_all) = false;
-option (gogoproto.goproto_sizecache_all) = false;
 option (gogoproto.goproto_getters_all) = true;
 
 
@@ -57,6 +53,9 @@ message PingResponse {
   string msg = 2;
 }
 
+message Empty {
+}
+
 //
 // Plugin is the ttRPC service than NRI plugins must implement.
 //
@@ -85,27 +84,27 @@ service Plugin {
   // Shutdown lets the plugin know the runtime is going down.
   //
   // Once a plugin has responded to this request it should shut itself down.
-  rpc Shutdown(google.protobuf.Empty) returns (google.protobuf.Empty);
+  rpc Shutdown(Empty) returns (Empty);
 
   // RunPodSandbox relays the corresponding CRI event to the plugin.
   //
   // The response is empty. It is not possible for a plugin to update
   // containers in response to this request.
-  rpc RunPodSandbox(RunPodSandboxRequest) returns (google.protobuf.Empty);
+  rpc RunPodSandbox(RunPodSandboxRequest) returns (Empty);
 
   // StopPodSandbox relays the corresponding CRI event to the plugin.
   //
   // The response is empty. It is not possible for a plugin to update
   // containers in response to this request. All containers in the pod
   // will be explicitly stopped before the pod is stopped.
-  rpc StopPodSandbox(StopPodSandboxRequest) returns (google.protobuf.Empty);
+  rpc StopPodSandbox(StopPodSandboxRequest) returns (Empty);
 
   // RemovePodSandbox relays the corresponding CRI event to the plugin.
   //
   // The response is empty. It is not possible for a plugin to update
   // containers in response to this request. All containers in the pod
   // will be explicitly stopped and removed before removing the pod.
-  rpc RemovePodSandbox(RemovePodSandboxRequest) returns (google.protobuf.Empty);
+  rpc RemovePodSandbox(RemovePodSandboxRequest) returns (Empty);
 
   // CreateContainer relays the corresponding CRI event to the plugin.
   //
@@ -117,7 +116,7 @@ service Plugin {
   //
   // The response is empty. It is not possible for a plugin to update
   // containers in response to this request.
-  rpc StartContainer(StartContainerRequest) returns (google.protobuf.Empty);
+  rpc StartContainer(StartContainerRequest) returns (Empty);
 
   // UpdateContainer relays the corresponding UpdateContainerResources event
   // to the plugin.
@@ -137,7 +136,7 @@ service Plugin {
   // The response is empty. It is not possible for a plugin to update
   // containers in response to this request. All containers will be explicitly
   // stopped before removal.
-  rpc RemoveContainer(RemoveContainerRequest) returns (google.protobuf.Empty);
+  rpc RemoveContainer(RemoveContainerRequest) returns (Empty);
 }
 
 // Event is used by plugins to subscribe for pod and container lifecycle
@@ -177,9 +176,9 @@ message ConfigureResponse {
   repeated Event subscribe = 2;
 }
 
-// ShutdownRequest is empty/google.protobuf.Empty.
+// ShutdownRequest is empty.
 
-// ShutdownResponse is empty/google.protobuf.Empty.
+// ShutdownResponse is empty.
 
 // PodSandbox describes a single pod for a plugin.
 message PodSandbox {
@@ -259,21 +258,21 @@ message RunPodSandboxRequest {
   PodSandbox pod = 1;
 }
 
-// RunPodSandboxResponse is empty/google.protobuf.Empty.
+// RunPodSandboxResponse is empty.
 
 // StopPodSandboxRequest describes the pod being stopped.
 message StopPodSandboxRequest {
   PodSandbox pod = 1;
 }
 
-// StopPodSandboxResponse is empty/google.protobuf.Empty.
+// StopPodSandboxResponse is empty.
 
 // RemovePodSandboxRequest describes the pod being removed.
 message RemovePodSandboxRequest {
   PodSandbox pod = 1;
 }
 
-// RemovePodSandboxResponse is empty/google.protobuf.Empty.
+// RemovePodSandboxResponse is empty.
 
 // CreateContainerRequest describes the container being created.
 message CreateContainerRequest {
@@ -295,7 +294,7 @@ message StartContainerRequest {
   Container container = 2;
 }
 
-// StartContainerResponse is empty/google.protobuf.Empty.
+// StartContainerResponse is empty.
 
 // UpdateContainerRequest describes the container being updated.
 message UpdateContainerRequest {
@@ -329,7 +328,7 @@ message RemoveContainerRequest {
   Container container = 2;
 }
 
-// RemoveContainerResponse is empty/google.protobuf.Empty.
+// RemoveContainerResponse is empty.
 
 // SynchronizeRequest describes the runtime state for dynamic plugins.
 message SynchronizeRequest {

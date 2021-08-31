@@ -10,7 +10,6 @@ import (
 	_ "github.com/gogo/protobuf/gogoproto"
 	proto "github.com/gogo/protobuf/proto"
 	github_com_gogo_protobuf_sortkeys "github.com/gogo/protobuf/sortkeys"
-	empty "github.com/golang/protobuf/ptypes/empty"
 	io "io"
 	v1alpha2 "k8s.io/cri-api/pkg/apis/runtime/v1alpha2"
 	math "math"
@@ -89,7 +88,10 @@ func (Event) EnumDescriptor() ([]byte, []int) {
 
 // AdjustContainersRequest describes container adjustments requested by a plugin.
 type AdjustContainersRequest struct {
-	Updates []*ContainerUpdate `protobuf:"bytes,1,rep,name=updates,proto3" json:"updates,omitempty"`
+	Updates              []*ContainerUpdate `protobuf:"bytes,1,rep,name=updates,proto3" json:"updates,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}           `json:"-"`
+	XXX_unrecognized     []byte             `json:"-"`
+	XXX_sizecache        int32              `json:"-"`
 }
 
 func (m *AdjustContainersRequest) Reset()      { *m = AdjustContainersRequest{} }
@@ -133,7 +135,10 @@ func (m *AdjustContainersRequest) GetUpdates() []*ContainerUpdate {
 
 // AdjustContainersResponse contains container adjustments that failed.
 type AdjustContainersResponse struct {
-	Failed []*ContainerUpdate `protobuf:"bytes,1,rep,name=failed,proto3" json:"failed,omitempty"`
+	Failed               []*ContainerUpdate `protobuf:"bytes,1,rep,name=failed,proto3" json:"failed,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}           `json:"-"`
+	XXX_unrecognized     []byte             `json:"-"`
+	XXX_sizecache        int32              `json:"-"`
 }
 
 func (m *AdjustContainersResponse) Reset()      { *m = AdjustContainersResponse{} }
@@ -176,8 +181,11 @@ func (m *AdjustContainersResponse) GetFailed() []*ContainerUpdate {
 }
 
 type PingRequest struct {
-	RequestNumber uint32 `protobuf:"varint,1,opt,name=request_number,json=requestNumber,proto3" json:"request_number,omitempty"`
-	Msg           string `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
+	RequestNumber        uint32   `protobuf:"varint,1,opt,name=request_number,json=requestNumber,proto3" json:"request_number,omitempty"`
+	Msg                  string   `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
 func (m *PingRequest) Reset()      { *m = PingRequest{} }
@@ -227,8 +235,11 @@ func (m *PingRequest) GetMsg() string {
 }
 
 type PingResponse struct {
-	RequestNumber uint32 `protobuf:"varint,1,opt,name=request_number,json=requestNumber,proto3" json:"request_number,omitempty"`
-	Msg           string `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
+	RequestNumber        uint32   `protobuf:"varint,1,opt,name=request_number,json=requestNumber,proto3" json:"request_number,omitempty"`
+	Msg                  string   `protobuf:"bytes,2,opt,name=msg,proto3" json:"msg,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
 func (m *PingResponse) Reset()      { *m = PingResponse{} }
@@ -277,16 +288,57 @@ func (m *PingResponse) GetMsg() string {
 	return ""
 }
 
+type Empty struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *Empty) Reset()      { *m = Empty{} }
+func (*Empty) ProtoMessage() {}
+func (*Empty) Descriptor() ([]byte, []int) {
+	return fileDescriptor_00212fb1f9d3bf1c, []int{4}
+}
+func (m *Empty) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *Empty) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_Empty.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *Empty) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Empty.Merge(m, src)
+}
+func (m *Empty) XXX_Size() int {
+	return m.Size()
+}
+func (m *Empty) XXX_DiscardUnknown() {
+	xxx_messageInfo_Empty.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Empty proto.InternalMessageInfo
+
 // ConfigureRequest contains plugin-specific raw configuration data.
 type ConfigureRequest struct {
 	// Opaque plugin-specific raw configuration data.
-	Config string `protobuf:"bytes,1,opt,name=config,proto3" json:"config,omitempty"`
+	Config               string   `protobuf:"bytes,1,opt,name=config,proto3" json:"config,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
 func (m *ConfigureRequest) Reset()      { *m = ConfigureRequest{} }
 func (*ConfigureRequest) ProtoMessage() {}
 func (*ConfigureRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_00212fb1f9d3bf1c, []int{4}
+	return fileDescriptor_00212fb1f9d3bf1c, []int{5}
 }
 func (m *ConfigureRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -327,13 +379,16 @@ type ConfigureResponse struct {
 	// ID reported by plugin (used as sorting order for dynamic plugins).
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// Subscribe the plugins to these events.
-	Subscribe []Event `protobuf:"varint,2,rep,packed,name=subscribe,proto3,enum=vproto.Event" json:"subscribe,omitempty"`
+	Subscribe            []Event  `protobuf:"varint,2,rep,packed,name=subscribe,proto3,enum=vproto.Event" json:"subscribe,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
 func (m *ConfigureResponse) Reset()      { *m = ConfigureResponse{} }
 func (*ConfigureResponse) ProtoMessage() {}
 func (*ConfigureResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_00212fb1f9d3bf1c, []int{5}
+	return fileDescriptor_00212fb1f9d3bf1c, []int{6}
 }
 func (m *ConfigureResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -395,13 +450,16 @@ type PodSandbox struct {
 	// Pod cgroup directory.
 	CgroupPath string `protobuf:"bytes,8,opt,name=cgroup_path,json=cgroupPath,proto3" json:"cgroup_path,omitempty"`
 	// Pod runtime handler.
-	RuntimeHandler string `protobuf:"bytes,9,opt,name=runtime_handler,json=runtimeHandler,proto3" json:"runtime_handler,omitempty"`
+	RuntimeHandler       string   `protobuf:"bytes,9,opt,name=runtime_handler,json=runtimeHandler,proto3" json:"runtime_handler,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
 func (m *PodSandbox) Reset()      { *m = PodSandbox{} }
 func (*PodSandbox) ProtoMessage() {}
 func (*PodSandbox) Descriptor() ([]byte, []int) {
-	return fileDescriptor_00212fb1f9d3bf1c, []int{6}
+	return fileDescriptor_00212fb1f9d3bf1c, []int{7}
 }
 func (m *PodSandbox) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -495,16 +553,19 @@ func (m *PodSandbox) GetRuntimeHandler() string {
 
 // Hook describes a single runtime hook for a container.
 type Hook struct {
-	Path    string               `protobuf:"bytes,1,opt,name=path,proto3" json:"path,omitempty"`
-	Args    []string             `protobuf:"bytes,2,rep,name=args,proto3" json:"args,omitempty"`
-	Env     []*v1alpha2.KeyValue `protobuf:"bytes,3,rep,name=env,proto3" json:"env,omitempty"`
-	Timeout int32                `protobuf:"varint,4,opt,name=timeout,proto3" json:"timeout,omitempty"`
+	Path                 string               `protobuf:"bytes,1,opt,name=path,proto3" json:"path,omitempty"`
+	Args                 []string             `protobuf:"bytes,2,rep,name=args,proto3" json:"args,omitempty"`
+	Env                  []*v1alpha2.KeyValue `protobuf:"bytes,3,rep,name=env,proto3" json:"env,omitempty"`
+	Timeout              int32                `protobuf:"varint,4,opt,name=timeout,proto3" json:"timeout,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}             `json:"-"`
+	XXX_unrecognized     []byte               `json:"-"`
+	XXX_sizecache        int32                `json:"-"`
 }
 
 func (m *Hook) Reset()      { *m = Hook{} }
 func (*Hook) ProtoMessage() {}
 func (*Hook) Descriptor() ([]byte, []int) {
-	return fileDescriptor_00212fb1f9d3bf1c, []int{7}
+	return fileDescriptor_00212fb1f9d3bf1c, []int{8}
 }
 func (m *Hook) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -563,18 +624,21 @@ func (m *Hook) GetTimeout() int32 {
 
 // Hooks describe a set of runtime hooks for a container.
 type Hooks struct {
-	Prestart        []*Hook `protobuf:"bytes,1,rep,name=prestart,proto3" json:"prestart,omitempty"`
-	CreateRuntime   []*Hook `protobuf:"bytes,2,rep,name=create_runtime,json=createRuntime,proto3" json:"create_runtime,omitempty"`
-	CreateContainer []*Hook `protobuf:"bytes,3,rep,name=create_container,json=createContainer,proto3" json:"create_container,omitempty"`
-	StartContainer  []*Hook `protobuf:"bytes,4,rep,name=start_container,json=startContainer,proto3" json:"start_container,omitempty"`
-	Poststart       []*Hook `protobuf:"bytes,5,rep,name=poststart,proto3" json:"poststart,omitempty"`
-	Poststop        []*Hook `protobuf:"bytes,6,rep,name=poststop,proto3" json:"poststop,omitempty"`
+	Prestart             []*Hook  `protobuf:"bytes,1,rep,name=prestart,proto3" json:"prestart,omitempty"`
+	CreateRuntime        []*Hook  `protobuf:"bytes,2,rep,name=create_runtime,json=createRuntime,proto3" json:"create_runtime,omitempty"`
+	CreateContainer      []*Hook  `protobuf:"bytes,3,rep,name=create_container,json=createContainer,proto3" json:"create_container,omitempty"`
+	StartContainer       []*Hook  `protobuf:"bytes,4,rep,name=start_container,json=startContainer,proto3" json:"start_container,omitempty"`
+	Poststart            []*Hook  `protobuf:"bytes,5,rep,name=poststart,proto3" json:"poststart,omitempty"`
+	Poststop             []*Hook  `protobuf:"bytes,6,rep,name=poststop,proto3" json:"poststop,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
 func (m *Hooks) Reset()      { *m = Hooks{} }
 func (*Hooks) ProtoMessage() {}
 func (*Hooks) Descriptor() ([]byte, []int) {
-	return fileDescriptor_00212fb1f9d3bf1c, []int{8}
+	return fileDescriptor_00212fb1f9d3bf1c, []int{9}
 }
 func (m *Hooks) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -647,19 +711,22 @@ func (m *Hooks) GetPoststop() []*Hook {
 
 // ContainerCreateUpdate contains changes for a container being created.
 type ContainerCreateUpdate struct {
-	LinuxResources *v1alpha2.LinuxContainerResources `protobuf:"bytes,1,opt,name=linux_resources,json=linuxResources,proto3" json:"linux_resources,omitempty"`
-	Labels         map[string]string                 `protobuf:"bytes,2,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-	Annotations    map[string]string                 `protobuf:"bytes,3,rep,name=annotations,proto3" json:"annotations,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-	Envs           []*v1alpha2.KeyValue              `protobuf:"bytes,4,rep,name=envs,proto3" json:"envs,omitempty"`
-	Mounts         []*v1alpha2.Mount                 `protobuf:"bytes,5,rep,name=mounts,proto3" json:"mounts,omitempty"`
-	Devices        []*v1alpha2.Device                `protobuf:"bytes,6,rep,name=devices,proto3" json:"devices,omitempty"`
-	Hooks          []*Hooks                          `protobuf:"bytes,7,rep,name=hooks,proto3" json:"hooks,omitempty"`
+	LinuxResources       *v1alpha2.LinuxContainerResources `protobuf:"bytes,1,opt,name=linux_resources,json=linuxResources,proto3" json:"linux_resources,omitempty"`
+	Labels               map[string]string                 `protobuf:"bytes,2,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	Annotations          map[string]string                 `protobuf:"bytes,3,rep,name=annotations,proto3" json:"annotations,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	Envs                 []*v1alpha2.KeyValue              `protobuf:"bytes,4,rep,name=envs,proto3" json:"envs,omitempty"`
+	Mounts               []*v1alpha2.Mount                 `protobuf:"bytes,5,rep,name=mounts,proto3" json:"mounts,omitempty"`
+	Devices              []*v1alpha2.Device                `protobuf:"bytes,6,rep,name=devices,proto3" json:"devices,omitempty"`
+	Hooks                []*Hooks                          `protobuf:"bytes,7,rep,name=hooks,proto3" json:"hooks,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}                          `json:"-"`
+	XXX_unrecognized     []byte                            `json:"-"`
+	XXX_sizecache        int32                             `json:"-"`
 }
 
 func (m *ContainerCreateUpdate) Reset()      { *m = ContainerCreateUpdate{} }
 func (*ContainerCreateUpdate) ProtoMessage() {}
 func (*ContainerCreateUpdate) Descriptor() ([]byte, []int) {
-	return fileDescriptor_00212fb1f9d3bf1c, []int{9}
+	return fileDescriptor_00212fb1f9d3bf1c, []int{10}
 }
 func (m *ContainerCreateUpdate) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -739,15 +806,18 @@ func (m *ContainerCreateUpdate) GetHooks() []*Hooks {
 
 // ContainerUpdate contains changes for an existing container.
 type ContainerUpdate struct {
-	ContainerId    string                            `protobuf:"bytes,1,opt,name=container_id,json=containerId,proto3" json:"container_id,omitempty"`
-	LinuxResources *v1alpha2.LinuxContainerResources `protobuf:"bytes,2,opt,name=linux_resources,json=linuxResources,proto3" json:"linux_resources,omitempty"`
-	Annotations    map[string]string                 `protobuf:"bytes,3,rep,name=annotations,proto3" json:"annotations,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	ContainerId          string                            `protobuf:"bytes,1,opt,name=container_id,json=containerId,proto3" json:"container_id,omitempty"`
+	LinuxResources       *v1alpha2.LinuxContainerResources `protobuf:"bytes,2,opt,name=linux_resources,json=linuxResources,proto3" json:"linux_resources,omitempty"`
+	Annotations          map[string]string                 `protobuf:"bytes,3,rep,name=annotations,proto3" json:"annotations,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	XXX_NoUnkeyedLiteral struct{}                          `json:"-"`
+	XXX_unrecognized     []byte                            `json:"-"`
+	XXX_sizecache        int32                             `json:"-"`
 }
 
 func (m *ContainerUpdate) Reset()      { *m = ContainerUpdate{} }
 func (*ContainerUpdate) ProtoMessage() {}
 func (*ContainerUpdate) Descriptor() ([]byte, []int) {
-	return fileDescriptor_00212fb1f9d3bf1c, []int{10}
+	return fileDescriptor_00212fb1f9d3bf1c, []int{11}
 }
 func (m *ContainerUpdate) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -799,23 +869,26 @@ func (m *ContainerUpdate) GetAnnotations() map[string]string {
 
 // Container describes a single container for a plugin.
 type Container struct {
-	Id             string                            `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	PodSandboxId   string                            `protobuf:"bytes,2,opt,name=pod_sandbox_id,json=podSandboxId,proto3" json:"pod_sandbox_id,omitempty"`
-	Name           string                            `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
-	Labels         map[string]string                 `protobuf:"bytes,4,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-	Annotations    map[string]string                 `protobuf:"bytes,5,rep,name=annotations,proto3" json:"annotations,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-	Command        []string                          `protobuf:"bytes,6,rep,name=command,proto3" json:"command,omitempty"`
-	Args           []string                          `protobuf:"bytes,7,rep,name=args,proto3" json:"args,omitempty"`
-	Envs           []*v1alpha2.KeyValue              `protobuf:"bytes,8,rep,name=envs,proto3" json:"envs,omitempty"`
-	Mounts         []*v1alpha2.Mount                 `protobuf:"bytes,9,rep,name=mounts,proto3" json:"mounts,omitempty"`
-	Devices        []*v1alpha2.Device                `protobuf:"bytes,10,rep,name=devices,proto3" json:"devices,omitempty"`
-	LinuxResources *v1alpha2.LinuxContainerResources `protobuf:"bytes,11,opt,name=linux_resources,json=linuxResources,proto3" json:"linux_resources,omitempty"`
+	Id                   string                            `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	PodSandboxId         string                            `protobuf:"bytes,2,opt,name=pod_sandbox_id,json=podSandboxId,proto3" json:"pod_sandbox_id,omitempty"`
+	Name                 string                            `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
+	Labels               map[string]string                 `protobuf:"bytes,4,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	Annotations          map[string]string                 `protobuf:"bytes,5,rep,name=annotations,proto3" json:"annotations,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	Command              []string                          `protobuf:"bytes,6,rep,name=command,proto3" json:"command,omitempty"`
+	Args                 []string                          `protobuf:"bytes,7,rep,name=args,proto3" json:"args,omitempty"`
+	Envs                 []*v1alpha2.KeyValue              `protobuf:"bytes,8,rep,name=envs,proto3" json:"envs,omitempty"`
+	Mounts               []*v1alpha2.Mount                 `protobuf:"bytes,9,rep,name=mounts,proto3" json:"mounts,omitempty"`
+	Devices              []*v1alpha2.Device                `protobuf:"bytes,10,rep,name=devices,proto3" json:"devices,omitempty"`
+	LinuxResources       *v1alpha2.LinuxContainerResources `protobuf:"bytes,11,opt,name=linux_resources,json=linuxResources,proto3" json:"linux_resources,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}                          `json:"-"`
+	XXX_unrecognized     []byte                            `json:"-"`
+	XXX_sizecache        int32                             `json:"-"`
 }
 
 func (m *Container) Reset()      { *m = Container{} }
 func (*Container) ProtoMessage() {}
 func (*Container) Descriptor() ([]byte, []int) {
-	return fileDescriptor_00212fb1f9d3bf1c, []int{11}
+	return fileDescriptor_00212fb1f9d3bf1c, []int{12}
 }
 func (m *Container) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -923,13 +996,16 @@ func (m *Container) GetLinuxResources() *v1alpha2.LinuxContainerResources {
 
 // RunPodSandboxRequest describes the pod being created.
 type RunPodSandboxRequest struct {
-	Pod *PodSandbox `protobuf:"bytes,1,opt,name=pod,proto3" json:"pod,omitempty"`
+	Pod                  *PodSandbox `protobuf:"bytes,1,opt,name=pod,proto3" json:"pod,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
+	XXX_unrecognized     []byte      `json:"-"`
+	XXX_sizecache        int32       `json:"-"`
 }
 
 func (m *RunPodSandboxRequest) Reset()      { *m = RunPodSandboxRequest{} }
 func (*RunPodSandboxRequest) ProtoMessage() {}
 func (*RunPodSandboxRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_00212fb1f9d3bf1c, []int{12}
+	return fileDescriptor_00212fb1f9d3bf1c, []int{13}
 }
 func (m *RunPodSandboxRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -967,13 +1043,16 @@ func (m *RunPodSandboxRequest) GetPod() *PodSandbox {
 
 // StopPodSandboxRequest describes the pod being stopped.
 type StopPodSandboxRequest struct {
-	Pod *PodSandbox `protobuf:"bytes,1,opt,name=pod,proto3" json:"pod,omitempty"`
+	Pod                  *PodSandbox `protobuf:"bytes,1,opt,name=pod,proto3" json:"pod,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
+	XXX_unrecognized     []byte      `json:"-"`
+	XXX_sizecache        int32       `json:"-"`
 }
 
 func (m *StopPodSandboxRequest) Reset()      { *m = StopPodSandboxRequest{} }
 func (*StopPodSandboxRequest) ProtoMessage() {}
 func (*StopPodSandboxRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_00212fb1f9d3bf1c, []int{13}
+	return fileDescriptor_00212fb1f9d3bf1c, []int{14}
 }
 func (m *StopPodSandboxRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1011,13 +1090,16 @@ func (m *StopPodSandboxRequest) GetPod() *PodSandbox {
 
 // RemovePodSandboxRequest describes the pod being removed.
 type RemovePodSandboxRequest struct {
-	Pod *PodSandbox `protobuf:"bytes,1,opt,name=pod,proto3" json:"pod,omitempty"`
+	Pod                  *PodSandbox `protobuf:"bytes,1,opt,name=pod,proto3" json:"pod,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
+	XXX_unrecognized     []byte      `json:"-"`
+	XXX_sizecache        int32       `json:"-"`
 }
 
 func (m *RemovePodSandboxRequest) Reset()      { *m = RemovePodSandboxRequest{} }
 func (*RemovePodSandboxRequest) ProtoMessage() {}
 func (*RemovePodSandboxRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_00212fb1f9d3bf1c, []int{14}
+	return fileDescriptor_00212fb1f9d3bf1c, []int{15}
 }
 func (m *RemovePodSandboxRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1055,14 +1137,17 @@ func (m *RemovePodSandboxRequest) GetPod() *PodSandbox {
 
 // CreateContainerRequest describes the container being created.
 type CreateContainerRequest struct {
-	Pod       *PodSandbox `protobuf:"bytes,1,opt,name=pod,proto3" json:"pod,omitempty"`
-	Container *Container  `protobuf:"bytes,2,opt,name=container,proto3" json:"container,omitempty"`
+	Pod                  *PodSandbox `protobuf:"bytes,1,opt,name=pod,proto3" json:"pod,omitempty"`
+	Container            *Container  `protobuf:"bytes,2,opt,name=container,proto3" json:"container,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
+	XXX_unrecognized     []byte      `json:"-"`
+	XXX_sizecache        int32       `json:"-"`
 }
 
 func (m *CreateContainerRequest) Reset()      { *m = CreateContainerRequest{} }
 func (*CreateContainerRequest) ProtoMessage() {}
 func (*CreateContainerRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_00212fb1f9d3bf1c, []int{15}
+	return fileDescriptor_00212fb1f9d3bf1c, []int{16}
 }
 func (m *CreateContainerRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1110,13 +1195,16 @@ type CreateContainerResponse struct {
 	// Updates for the container being created.
 	Create *ContainerCreateUpdate `protobuf:"bytes,1,opt,name=create,proto3" json:"create,omitempty"`
 	// Updates for other running containers.
-	Updates []*ContainerUpdate `protobuf:"bytes,2,rep,name=updates,proto3" json:"updates,omitempty"`
+	Updates              []*ContainerUpdate `protobuf:"bytes,2,rep,name=updates,proto3" json:"updates,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}           `json:"-"`
+	XXX_unrecognized     []byte             `json:"-"`
+	XXX_sizecache        int32              `json:"-"`
 }
 
 func (m *CreateContainerResponse) Reset()      { *m = CreateContainerResponse{} }
 func (*CreateContainerResponse) ProtoMessage() {}
 func (*CreateContainerResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_00212fb1f9d3bf1c, []int{16}
+	return fileDescriptor_00212fb1f9d3bf1c, []int{17}
 }
 func (m *CreateContainerResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1161,14 +1249,17 @@ func (m *CreateContainerResponse) GetUpdates() []*ContainerUpdate {
 
 // StartContainerRequest describes the container being started.
 type StartContainerRequest struct {
-	Pod       *PodSandbox `protobuf:"bytes,1,opt,name=pod,proto3" json:"pod,omitempty"`
-	Container *Container  `protobuf:"bytes,2,opt,name=container,proto3" json:"container,omitempty"`
+	Pod                  *PodSandbox `protobuf:"bytes,1,opt,name=pod,proto3" json:"pod,omitempty"`
+	Container            *Container  `protobuf:"bytes,2,opt,name=container,proto3" json:"container,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
+	XXX_unrecognized     []byte      `json:"-"`
+	XXX_sizecache        int32       `json:"-"`
 }
 
 func (m *StartContainerRequest) Reset()      { *m = StartContainerRequest{} }
 func (*StartContainerRequest) ProtoMessage() {}
 func (*StartContainerRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_00212fb1f9d3bf1c, []int{17}
+	return fileDescriptor_00212fb1f9d3bf1c, []int{18}
 }
 func (m *StartContainerRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1213,16 +1304,19 @@ func (m *StartContainerRequest) GetContainer() *Container {
 
 // UpdateContainerRequest describes the container being updated.
 type UpdateContainerRequest struct {
-	Pod            *PodSandbox                       `protobuf:"bytes,1,opt,name=pod,proto3" json:"pod,omitempty"`
-	Container      *Container                        `protobuf:"bytes,2,opt,name=container,proto3" json:"container,omitempty"`
-	LinuxResources *v1alpha2.LinuxContainerResources `protobuf:"bytes,3,opt,name=linux_resources,json=linuxResources,proto3" json:"linux_resources,omitempty"`
-	Annotations    map[string]string                 `protobuf:"bytes,4,rep,name=annotations,proto3" json:"annotations,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	Pod                  *PodSandbox                       `protobuf:"bytes,1,opt,name=pod,proto3" json:"pod,omitempty"`
+	Container            *Container                        `protobuf:"bytes,2,opt,name=container,proto3" json:"container,omitempty"`
+	LinuxResources       *v1alpha2.LinuxContainerResources `protobuf:"bytes,3,opt,name=linux_resources,json=linuxResources,proto3" json:"linux_resources,omitempty"`
+	Annotations          map[string]string                 `protobuf:"bytes,4,rep,name=annotations,proto3" json:"annotations,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	XXX_NoUnkeyedLiteral struct{}                          `json:"-"`
+	XXX_unrecognized     []byte                            `json:"-"`
+	XXX_sizecache        int32                             `json:"-"`
 }
 
 func (m *UpdateContainerRequest) Reset()      { *m = UpdateContainerRequest{} }
 func (*UpdateContainerRequest) ProtoMessage() {}
 func (*UpdateContainerRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_00212fb1f9d3bf1c, []int{18}
+	return fileDescriptor_00212fb1f9d3bf1c, []int{19}
 }
 func (m *UpdateContainerRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1282,13 +1376,16 @@ func (m *UpdateContainerRequest) GetAnnotations() map[string]string {
 // UpdateContainerResponse contains requested container updates.
 type UpdateContainerResponse struct {
 	// Updates to running containers.
-	Updates []*ContainerUpdate `protobuf:"bytes,1,rep,name=updates,proto3" json:"updates,omitempty"`
+	Updates              []*ContainerUpdate `protobuf:"bytes,1,rep,name=updates,proto3" json:"updates,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}           `json:"-"`
+	XXX_unrecognized     []byte             `json:"-"`
+	XXX_sizecache        int32              `json:"-"`
 }
 
 func (m *UpdateContainerResponse) Reset()      { *m = UpdateContainerResponse{} }
 func (*UpdateContainerResponse) ProtoMessage() {}
 func (*UpdateContainerResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_00212fb1f9d3bf1c, []int{19}
+	return fileDescriptor_00212fb1f9d3bf1c, []int{20}
 }
 func (m *UpdateContainerResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1326,14 +1423,17 @@ func (m *UpdateContainerResponse) GetUpdates() []*ContainerUpdate {
 
 // StopContainerRequest describes the container being stopped.
 type StopContainerRequest struct {
-	Pod       *PodSandbox `protobuf:"bytes,1,opt,name=pod,proto3" json:"pod,omitempty"`
-	Container *Container  `protobuf:"bytes,2,opt,name=container,proto3" json:"container,omitempty"`
+	Pod                  *PodSandbox `protobuf:"bytes,1,opt,name=pod,proto3" json:"pod,omitempty"`
+	Container            *Container  `protobuf:"bytes,2,opt,name=container,proto3" json:"container,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
+	XXX_unrecognized     []byte      `json:"-"`
+	XXX_sizecache        int32       `json:"-"`
 }
 
 func (m *StopContainerRequest) Reset()      { *m = StopContainerRequest{} }
 func (*StopContainerRequest) ProtoMessage() {}
 func (*StopContainerRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_00212fb1f9d3bf1c, []int{20}
+	return fileDescriptor_00212fb1f9d3bf1c, []int{21}
 }
 func (m *StopContainerRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1379,13 +1479,16 @@ func (m *StopContainerRequest) GetContainer() *Container {
 // StopContainerResponse describes requested updates to containers.
 type StopContainerResponse struct {
 	// Update to running containers.
-	Updates []*ContainerUpdate `protobuf:"bytes,1,rep,name=updates,proto3" json:"updates,omitempty"`
+	Updates              []*ContainerUpdate `protobuf:"bytes,1,rep,name=updates,proto3" json:"updates,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}           `json:"-"`
+	XXX_unrecognized     []byte             `json:"-"`
+	XXX_sizecache        int32              `json:"-"`
 }
 
 func (m *StopContainerResponse) Reset()      { *m = StopContainerResponse{} }
 func (*StopContainerResponse) ProtoMessage() {}
 func (*StopContainerResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_00212fb1f9d3bf1c, []int{21}
+	return fileDescriptor_00212fb1f9d3bf1c, []int{22}
 }
 func (m *StopContainerResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1423,14 +1526,17 @@ func (m *StopContainerResponse) GetUpdates() []*ContainerUpdate {
 
 // RemoveContainerRequest describes the container being removed.
 type RemoveContainerRequest struct {
-	Pod       *PodSandbox `protobuf:"bytes,1,opt,name=pod,proto3" json:"pod,omitempty"`
-	Container *Container  `protobuf:"bytes,2,opt,name=container,proto3" json:"container,omitempty"`
+	Pod                  *PodSandbox `protobuf:"bytes,1,opt,name=pod,proto3" json:"pod,omitempty"`
+	Container            *Container  `protobuf:"bytes,2,opt,name=container,proto3" json:"container,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
+	XXX_unrecognized     []byte      `json:"-"`
+	XXX_sizecache        int32       `json:"-"`
 }
 
 func (m *RemoveContainerRequest) Reset()      { *m = RemoveContainerRequest{} }
 func (*RemoveContainerRequest) ProtoMessage() {}
 func (*RemoveContainerRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_00212fb1f9d3bf1c, []int{22}
+	return fileDescriptor_00212fb1f9d3bf1c, []int{23}
 }
 func (m *RemoveContainerRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1475,14 +1581,17 @@ func (m *RemoveContainerRequest) GetContainer() *Container {
 
 // SynchronizeRequest describes the runtime state for dynamic plugins.
 type SynchronizeRequest struct {
-	Pods       []*PodSandbox `protobuf:"bytes,1,rep,name=pods,proto3" json:"pods,omitempty"`
-	Containers []*Container  `protobuf:"bytes,2,rep,name=containers,proto3" json:"containers,omitempty"`
+	Pods                 []*PodSandbox `protobuf:"bytes,1,rep,name=pods,proto3" json:"pods,omitempty"`
+	Containers           []*Container  `protobuf:"bytes,2,rep,name=containers,proto3" json:"containers,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}      `json:"-"`
+	XXX_unrecognized     []byte        `json:"-"`
+	XXX_sizecache        int32         `json:"-"`
 }
 
 func (m *SynchronizeRequest) Reset()      { *m = SynchronizeRequest{} }
 func (*SynchronizeRequest) ProtoMessage() {}
 func (*SynchronizeRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_00212fb1f9d3bf1c, []int{23}
+	return fileDescriptor_00212fb1f9d3bf1c, []int{24}
 }
 func (m *SynchronizeRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1527,13 +1636,16 @@ func (m *SynchronizeRequest) GetContainers() []*Container {
 
 // SynchronizeResponse describes requested updates to containers.
 type SynchronizeResponse struct {
-	Updates []*ContainerUpdate `protobuf:"bytes,1,rep,name=updates,proto3" json:"updates,omitempty"`
+	Updates              []*ContainerUpdate `protobuf:"bytes,1,rep,name=updates,proto3" json:"updates,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}           `json:"-"`
+	XXX_unrecognized     []byte             `json:"-"`
+	XXX_sizecache        int32              `json:"-"`
 }
 
 func (m *SynchronizeResponse) Reset()      { *m = SynchronizeResponse{} }
 func (*SynchronizeResponse) ProtoMessage() {}
 func (*SynchronizeResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_00212fb1f9d3bf1c, []int{24}
+	return fileDescriptor_00212fb1f9d3bf1c, []int{25}
 }
 func (m *SynchronizeResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1575,6 +1687,7 @@ func init() {
 	proto.RegisterType((*AdjustContainersResponse)(nil), "vproto.AdjustContainersResponse")
 	proto.RegisterType((*PingRequest)(nil), "vproto.PingRequest")
 	proto.RegisterType((*PingResponse)(nil), "vproto.PingResponse")
+	proto.RegisterType((*Empty)(nil), "vproto.Empty")
 	proto.RegisterType((*ConfigureRequest)(nil), "vproto.ConfigureRequest")
 	proto.RegisterType((*ConfigureResponse)(nil), "vproto.ConfigureResponse")
 	proto.RegisterType((*PodSandbox)(nil), "vproto.PodSandbox")
@@ -1609,107 +1722,105 @@ func init() {
 func init() { proto.RegisterFile("api.proto", fileDescriptor_00212fb1f9d3bf1c) }
 
 var fileDescriptor_00212fb1f9d3bf1c = []byte{
-	// 1588 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xc4, 0x58, 0x5b, 0x73, 0xd3, 0x46,
-	0x14, 0x8e, 0x7c, 0x8d, 0x8f, 0xe3, 0x0b, 0x4b, 0x48, 0x54, 0x03, 0x26, 0x35, 0xb4, 0x0d, 0xb4,
-	0xd8, 0x83, 0x19, 0x5a, 0x4a, 0xaf, 0x26, 0x31, 0x10, 0x08, 0x89, 0xbb, 0x49, 0x18, 0xa6, 0x2f,
-	0x1e, 0xd9, 0x12, 0xb6, 0x1a, 0x5b, 0xab, 0xea, 0xe2, 0x92, 0x3e, 0x75, 0xa6, 0x7f, 0xa0, 0x33,
-	0xed, 0xcf, 0xe8, 0x2b, 0xaf, 0x7d, 0xa6, 0x6f, 0x3c, 0x75, 0x78, 0x2c, 0xa1, 0x3f, 0xa4, 0xa3,
-	0xdd, 0xd5, 0xcd, 0x96, 0x53, 0x92, 0x14, 0x78, 0x92, 0xf6, 0x9c, 0xef, 0x5c, 0xf6, 0xec, 0xb9,
-	0x48, 0x0b, 0x19, 0x49, 0x57, 0xab, 0xba, 0x41, 0x2c, 0x82, 0x52, 0x23, 0xfa, 0x2c, 0x5d, 0xee,
-	0xa9, 0x56, 0xdf, 0xee, 0x54, 0xbb, 0x64, 0x58, 0xeb, 0x91, 0x1e, 0xa9, 0x51, 0x72, 0xc7, 0x7e,
-	0x44, 0x57, 0x74, 0x41, 0xdf, 0x98, 0x58, 0xe9, 0x74, 0x8f, 0x90, 0xde, 0x40, 0xf1, 0x51, 0xca,
-	0x50, 0xb7, 0xf6, 0x38, 0xb3, 0xbe, 0x7b, 0xdd, 0xac, 0xaa, 0xa4, 0xd6, 0x35, 0xd4, 0xcb, 0x92,
-	0xae, 0xd6, 0xf4, 0xdd, 0x5e, 0x4d, 0xd2, 0x55, 0xb3, 0x66, 0xd8, 0x9a, 0xa5, 0x0e, 0x95, 0xda,
-	0xe8, 0x8a, 0x34, 0xd0, 0xfb, 0x52, 0xbd, 0xe6, 0xf9, 0x51, 0x59, 0x87, 0xc5, 0x86, 0xfc, 0x9d,
-	0x6d, 0x5a, 0x2b, 0x44, 0xb3, 0x24, 0x55, 0x53, 0x0c, 0x13, 0x2b, 0xdf, 0xdb, 0x8a, 0x69, 0xa1,
-	0x2b, 0x90, 0xb6, 0x75, 0x59, 0xb2, 0x14, 0x53, 0x14, 0x96, 0xe2, 0xcb, 0xd9, 0xfa, 0x62, 0x95,
-	0x39, 0x5d, 0xf5, 0xb0, 0x3b, 0x94, 0x8f, 0x5d, 0x5c, 0xe5, 0x1e, 0x88, 0x93, 0xda, 0x4c, 0x9d,
-	0x68, 0xa6, 0x82, 0x6a, 0x90, 0x7a, 0x24, 0xa9, 0x03, 0x45, 0xfe, 0x2f, 0x6d, 0x1c, 0x56, 0xb9,
-	0x05, 0xd9, 0x96, 0xaa, 0xf5, 0x5c, 0x77, 0xde, 0x83, 0xbc, 0xc1, 0x5e, 0xdb, 0x9a, 0x3d, 0xec,
-	0x28, 0x86, 0x28, 0x2c, 0x09, 0xcb, 0x39, 0x9c, 0xe3, 0xd4, 0x0d, 0x4a, 0x44, 0x45, 0x88, 0x0f,
-	0xcd, 0x9e, 0x18, 0x5b, 0x12, 0x96, 0x33, 0xd8, 0x79, 0xad, 0xdc, 0x86, 0x39, 0xa6, 0x87, 0x3b,
-	0x72, 0x64, 0x45, 0x97, 0xa0, 0xb8, 0x42, 0xb4, 0x47, 0x6a, 0xcf, 0x36, 0x14, 0xd7, 0xab, 0x05,
-	0x48, 0x75, 0x29, 0x8d, 0x2a, 0xc9, 0x60, 0xbe, 0xaa, 0xb4, 0xe0, 0x44, 0x00, 0xcb, 0x2d, 0xe7,
-	0x21, 0xa6, 0xca, 0x1c, 0x18, 0x53, 0x65, 0xf4, 0x21, 0x64, 0x4c, 0xbb, 0x63, 0x76, 0x0d, 0xb5,
-	0xa3, 0x88, 0xb1, 0xa5, 0xf8, 0x72, 0xbe, 0x9e, 0x73, 0xa3, 0xd2, 0x1c, 0x29, 0x9a, 0x85, 0x7d,
-	0x7e, 0xe5, 0xcf, 0x38, 0x40, 0x8b, 0xc8, 0x5b, 0x92, 0x26, 0x77, 0xc8, 0xe3, 0x09, 0x5d, 0x08,
-	0x12, 0x9a, 0x34, 0x54, 0xb8, 0xbf, 0xf4, 0xdd, 0xd9, 0x82, 0xad, 0xca, 0x62, 0x9c, 0x6d, 0xc1,
-	0x56, 0x65, 0x74, 0x06, 0x32, 0x0e, 0xc7, 0xd4, 0xa5, 0xae, 0x22, 0x26, 0x28, 0xdd, 0x27, 0xa0,
-	0x8f, 0x21, 0x35, 0x90, 0x3a, 0xca, 0xc0, 0x14, 0x93, 0xf4, 0x88, 0xca, 0xae, 0x33, 0xbe, 0xdd,
-	0xea, 0x3a, 0x05, 0x34, 0x35, 0xcb, 0xd8, 0xc3, 0x1c, 0x8d, 0x9a, 0x90, 0x95, 0x34, 0x8d, 0x58,
-	0x92, 0xa5, 0x12, 0xcd, 0x14, 0x53, 0x54, 0xf8, 0x7c, 0x84, 0x70, 0xc3, 0x47, 0x31, 0x0d, 0x41,
-	0x39, 0x74, 0x1e, 0x72, 0xdd, 0x9e, 0x41, 0x6c, 0xbd, 0xad, 0x4b, 0x86, 0xa2, 0x59, 0x62, 0x9a,
-	0x3a, 0x38, 0xc7, 0x88, 0x2d, 0x4a, 0x43, 0xe7, 0x20, 0xeb, 0x81, 0xac, 0xbe, 0x38, 0x4b, 0x21,
-	0xe0, 0x42, 0xac, 0x3e, 0xfa, 0x00, 0x0a, 0x3c, 0xdf, 0xdb, 0x7d, 0x49, 0x93, 0x07, 0x8a, 0x21,
-	0x66, 0x28, 0x28, 0xcf, 0xc9, 0x77, 0x18, 0xb5, 0xf4, 0x29, 0x64, 0x03, 0x9b, 0x71, 0x82, 0xb5,
-	0xab, 0xec, 0xf1, 0x88, 0x3a, 0xaf, 0x68, 0x1e, 0x92, 0x23, 0x69, 0x60, 0xbb, 0x31, 0x65, 0x8b,
-	0x1b, 0xb1, 0xeb, 0x42, 0xe9, 0x4b, 0x28, 0x8e, 0x6f, 0xe5, 0x30, 0xf2, 0x95, 0x11, 0x24, 0xee,
-	0x10, 0xb2, 0xeb, 0x1c, 0x1a, 0xdd, 0x05, 0x13, 0xa2, 0xef, 0x0e, 0x4d, 0x32, 0x7a, 0x26, 0xcd,
-	0x87, 0x0c, 0xa6, 0xef, 0xe8, 0x23, 0x88, 0x2b, 0xda, 0x48, 0x8c, 0xd3, 0xc0, 0x96, 0xaa, 0x7c,
-	0x23, 0x55, 0xb7, 0x9e, 0xab, 0xf7, 0x94, 0xbd, 0x07, 0x8e, 0x72, 0xec, 0xc0, 0x90, 0x08, 0x69,
-	0x87, 0x4d, 0x6c, 0x8b, 0x1e, 0x71, 0x12, 0xbb, 0xcb, 0xca, 0xef, 0x31, 0x48, 0x3a, 0x86, 0x4d,
-	0xb4, 0x0c, 0xb3, 0xba, 0xa1, 0x98, 0x96, 0x64, 0x58, 0xbc, 0x1e, 0xe7, 0xdc, 0xf3, 0x72, 0x00,
-	0xd8, 0xe3, 0xa2, 0xab, 0x90, 0xef, 0x1a, 0x8a, 0x64, 0x29, 0x6d, 0x6e, 0x96, 0x7a, 0x36, 0x8e,
-	0xcf, 0x31, 0x0c, 0x66, 0x10, 0xf4, 0x09, 0x14, 0xb9, 0x50, 0xd7, 0xad, 0x6e, 0xee, 0x7d, 0x58,
-	0xac, 0xc0, 0x50, 0x5e, 0x0b, 0x40, 0xd7, 0xa0, 0x40, 0xcd, 0x06, 0xe4, 0x12, 0x11, 0x72, 0x79,
-	0x0a, 0xf2, 0xc5, 0x2e, 0x41, 0x46, 0x27, 0xa6, 0xc5, 0xf6, 0x93, 0x8c, 0x10, 0xf0, 0xd9, 0x74,
-	0xeb, 0x74, 0x41, 0x74, 0x9e, 0xaa, 0xe3, 0x5b, 0xe7, 0xdc, 0xca, 0x93, 0x04, 0x9c, 0xf2, 0x6c,
-	0xac, 0x50, 0x4f, 0x59, 0x8f, 0x42, 0x18, 0x0a, 0x03, 0x55, 0xb3, 0x1f, 0xb7, 0x0d, 0xc5, 0x24,
-	0xb6, 0xd1, 0xa5, 0x3d, 0x52, 0x58, 0xce, 0xd6, 0x2f, 0x4e, 0x1e, 0xce, 0xba, 0x03, 0xf4, 0xd4,
-	0x60, 0x57, 0x00, 0xe7, 0xa9, 0x06, 0x6f, 0x8d, 0x1a, 0x5e, 0xf5, 0xb1, 0x00, 0x5f, 0x9c, 0x68,
-	0x90, 0x41, 0x17, 0x22, 0x0b, 0xb1, 0x15, 0x2e, 0x44, 0x16, 0xf1, 0xea, 0xc1, 0x7a, 0x0e, 0xae,
-	0xc9, 0x2a, 0x24, 0x14, 0x6d, 0x64, 0xf2, 0x43, 0x38, 0x28, 0xf5, 0x28, 0xce, 0xe9, 0xf2, 0x43,
-	0x62, 0x6b, 0x96, 0xdb, 0x42, 0x16, 0x27, 0x25, 0xee, 0x3b, 0x7c, 0xcc, 0x61, 0xa8, 0x0e, 0x69,
-	0x59, 0x19, 0xa9, 0x4e, 0x04, 0xd9, 0x61, 0x88, 0x93, 0x12, 0xab, 0x14, 0x80, 0x5d, 0x20, 0x3a,
-	0x0f, 0xc9, 0xbe, 0x93, 0xc5, 0x62, 0x9a, 0x4a, 0xe4, 0x82, 0xc7, 0x67, 0x62, 0xc6, 0x7b, 0x9b,
-	0xe5, 0xfd, 0x5b, 0x0c, 0x0a, 0x63, 0x53, 0x0d, 0xbd, 0x0b, 0x73, 0x5e, 0x4a, 0xb7, 0xbd, 0xce,
-	0x9d, 0xf5, 0x68, 0x6b, 0x72, 0x54, 0x52, 0xc5, 0x8e, 0x9b, 0x54, 0x77, 0xa3, 0x32, 0x62, 0x79,
-	0xca, 0xe8, 0x3d, 0x38, 0x17, 0x8e, 0x1d, 0x96, 0x7f, 0x12, 0x90, 0xf1, 0x4b, 0x76, 0x7c, 0x80,
-	0x5d, 0x80, 0xbc, 0x4e, 0xe4, 0xb6, 0xc9, 0x46, 0x85, 0x13, 0x22, 0xa6, 0x60, 0x4e, 0xf7, 0xe6,
-	0xc7, 0x9a, 0x3f, 0xe6, 0xe2, 0x81, 0x31, 0x77, 0xcd, 0x2b, 0x1c, 0x96, 0xa5, 0x67, 0x27, 0xb6,
-	0x17, 0x59, 0x2c, 0xab, 0xe1, 0xd0, 0xb0, 0x7c, 0xad, 0x4c, 0xca, 0x1e, 0x5c, 0x20, 0x22, 0xa4,
-	0xbb, 0x64, 0x38, 0x94, 0x34, 0x99, 0xe6, 0x6f, 0x06, 0xbb, 0x4b, 0xaf, 0x91, 0xa7, 0x03, 0x8d,
-	0xdc, 0x2d, 0xa7, 0xd9, 0x43, 0x97, 0x53, 0xe6, 0xd0, 0xe5, 0x04, 0xaf, 0x5a, 0x4e, 0x11, 0x79,
-	0x97, 0x3d, 0x66, 0xde, 0xbd, 0xcd, 0xea, 0xfb, 0x1c, 0xe6, 0xb1, 0xad, 0xf9, 0x5f, 0x1d, 0xee,
-	0xa7, 0xda, 0x05, 0x88, 0xeb, 0x44, 0xe6, 0x7d, 0x1a, 0x4d, 0x7e, 0x9d, 0x60, 0x87, 0x5d, 0xf9,
-	0x02, 0x4e, 0x6d, 0x59, 0x44, 0x3f, 0xaa, 0xf8, 0x57, 0xb0, 0x88, 0x95, 0x21, 0x19, 0x29, 0x47,
-	0x55, 0x40, 0x60, 0x61, 0x25, 0x3c, 0x13, 0x0f, 0x25, 0x8f, 0x6a, 0x90, 0xf1, 0x47, 0x27, 0x6b,
-	0x1f, 0x27, 0x26, 0x72, 0x1a, 0xfb, 0x98, 0xca, 0xcf, 0x02, 0x2c, 0x4e, 0x58, 0xe4, 0x1f, 0xac,
-	0xd7, 0x20, 0xc5, 0x06, 0x34, 0xb7, 0x7a, 0xf6, 0xc0, 0x51, 0x82, 0x39, 0x38, 0xf8, 0xe7, 0x10,
-	0x7b, 0xc5, 0x3f, 0x07, 0xcd, 0x09, 0x7b, 0x70, 0xa4, 0xbf, 0xe6, 0x5d, 0xff, 0x15, 0x83, 0x05,
-	0xe6, 0xc3, 0x1b, 0xb2, 0x18, 0x55, 0x65, 0xf1, 0xe3, 0x76, 0xf7, 0x6f, 0xc2, 0x2d, 0x8c, 0xb5,
-	0xbf, 0x9a, 0xeb, 0x46, 0xf4, 0xfe, 0x5e, 0x73, 0x93, 0x5f, 0x87, 0xc5, 0x09, 0xbb, 0x3c, 0x9b,
-	0x8e, 0xf0, 0x43, 0x39, 0x84, 0x79, 0xa7, 0x1a, 0xdf, 0x54, 0x56, 0xdc, 0x65, 0xc5, 0xff, 0xbf,
-	0xb8, 0x4e, 0x60, 0x81, 0x75, 0x82, 0x37, 0xe5, 0x3c, 0x01, 0xb4, 0xb5, 0xa7, 0x75, 0xfb, 0x06,
-	0xd1, 0xd4, 0x1f, 0xbd, 0x1f, 0xd4, 0xf7, 0x21, 0xa1, 0x13, 0xd9, 0x75, 0x3b, 0xca, 0x1a, 0xe5,
-	0xa3, 0x2b, 0x00, 0x9e, 0x2a, 0xb7, 0x6c, 0x23, 0xec, 0x05, 0x40, 0x95, 0x3b, 0x70, 0x32, 0x64,
-	0xf0, 0xc8, 0xb1, 0xba, 0xf4, 0x87, 0x00, 0x49, 0xfa, 0xc3, 0x8b, 0x4e, 0x42, 0x01, 0xef, 0x6c,
-	0xb4, 0x5b, 0x9b, 0xab, 0xed, 0xad, 0xc6, 0xc6, 0xea, 0xcd, 0xcd, 0x87, 0xc5, 0x19, 0x34, 0x0f,
-	0xc5, 0xad, 0xed, 0xcd, 0x56, 0x88, 0x2a, 0xa0, 0x05, 0x40, 0xb8, 0x79, 0x7f, 0xf3, 0x41, 0x33,
-	0x44, 0x8f, 0x39, 0xe8, 0x15, 0xdc, 0x6c, 0x6c, 0x37, 0xdb, 0x2b, 0x9b, 0x1b, 0xdb, 0x8d, 0xb5,
-	0x8d, 0x26, 0x2e, 0xc6, 0x1d, 0xc5, 0x5b, 0xdb, 0x0d, 0xbc, 0x1d, 0x20, 0x26, 0x1c, 0xe8, 0x4e,
-	0x6b, 0x35, 0x0c, 0x4d, 0x22, 0x04, 0x79, 0x6a, 0xce, 0xa7, 0xa5, 0x1c, 0x24, 0x37, 0xe6, 0x53,
-	0xd3, 0x28, 0x0d, 0xf1, 0xc6, 0xfa, 0x7a, 0x71, 0xb6, 0xfe, 0xab, 0x00, 0x69, 0xf7, 0xdf, 0x67,
-	0x07, 0x8a, 0xe3, 0x97, 0x20, 0xe8, 0x9c, 0x1b, 0x82, 0x29, 0x97, 0x2d, 0xa5, 0xa5, 0xe9, 0x00,
-	0x2f, 0xac, 0x89, 0x96, 0xaa, 0xf5, 0xd0, 0x49, 0xef, 0x08, 0xfd, 0xcb, 0x91, 0xd2, 0x7c, 0x98,
-	0xc8, 0x44, 0xea, 0x4f, 0x52, 0x90, 0x6a, 0x0d, 0xec, 0x9e, 0xaa, 0xa1, 0xaf, 0xe9, 0xa7, 0x17,
-	0xbb, 0x8f, 0x40, 0x62, 0xe0, 0x40, 0x42, 0xd7, 0x19, 0xa5, 0x77, 0x22, 0x38, 0xdc, 0xfe, 0x2d,
-	0xc8, 0x06, 0x4e, 0x1b, 0x95, 0x5c, 0xe4, 0x64, 0xce, 0x95, 0x4e, 0x47, 0xf2, 0xb8, 0x9e, 0x1b,
-	0x30, 0xbb, 0xd5, 0xb7, 0x2d, 0x99, 0xfc, 0xa0, 0xa1, 0x85, 0x2a, 0xbb, 0xcf, 0xaa, 0xba, 0xf7,
-	0x59, 0xd5, 0xe6, 0x50, 0xb7, 0xf6, 0x4a, 0x53, 0xe8, 0xa8, 0x09, 0xb9, 0xd0, 0x68, 0x47, 0x67,
-	0x5c, 0x4b, 0x51, 0x13, 0x7f, 0xaa, 0x9a, 0xdb, 0x90, 0x0f, 0xcf, 0x78, 0xe4, 0x0d, 0xb6, 0xc8,
-	0xd9, 0x3f, 0x55, 0xd1, 0x3d, 0x28, 0x8e, 0x4f, 0x7b, 0xff, 0xa8, 0xa7, 0x7c, 0x07, 0x4c, 0x55,
-	0x86, 0xa1, 0x30, 0x36, 0x87, 0x91, 0x77, 0x01, 0x13, 0xfd, 0x49, 0x50, 0x3a, 0x37, 0x95, 0xcf,
-	0x83, 0x4d, 0x77, 0x1a, 0xfa, 0x53, 0x0e, 0xec, 0x34, 0x62, 0xdc, 0x1e, 0xe4, 0xdc, 0x58, 0x5b,
-	0xf7, 0x9d, 0x8b, 0x9e, 0x33, 0xbe, 0x73, 0xd3, 0xe6, 0xc1, 0x3a, 0xe4, 0x42, 0xdd, 0xd6, 0x3f,
-	0xcd, 0xa8, 0x9e, 0x5f, 0x3a, 0x3b, 0x85, 0xcb, 0xb5, 0xad, 0x41, 0x61, 0xac, 0xdf, 0xfa, 0x1e,
-	0x46, 0x37, 0xe2, 0x69, 0x9b, 0xbd, 0xf9, 0xf0, 0xe9, 0x8b, 0xb2, 0xf0, 0xfc, 0x45, 0x79, 0xe6,
-	0xa7, 0xfd, 0xb2, 0xf0, 0x74, 0xbf, 0x2c, 0x3c, 0xdb, 0x2f, 0x0b, 0x7f, 0xef, 0x97, 0x85, 0x5f,
-	0x5e, 0x96, 0x67, 0x9e, 0xbd, 0x2c, 0xcf, 0x3c, 0x7f, 0x59, 0x9e, 0xf9, 0xb6, 0x1e, 0xb8, 0xba,
-	0xf5, 0xba, 0xa2, 0x5c, 0xd3, 0x0c, 0xb5, 0x46, 0x6f, 0x5f, 0x69, 0xe1, 0xd5, 0x98, 0x07, 0x9f,
-	0xb1, 0x47, 0x27, 0x45, 0x1f, 0x57, 0xff, 0x0d, 0x00, 0x00, 0xff, 0xff, 0xbc, 0xac, 0xc2, 0xbe,
-	0x0a, 0x16, 0x00, 0x00,
+	// 1565 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xc4, 0x58, 0xcb, 0x73, 0x13, 0x47,
+	0x1a, 0x67, 0xf4, 0xb4, 0x3e, 0x59, 0x0f, 0x1a, 0x63, 0xcf, 0x6a, 0xc1, 0x78, 0x05, 0xbb, 0x2b,
+	0xd8, 0x45, 0x2a, 0x44, 0xb1, 0xcb, 0x6e, 0x08, 0x41, 0xd8, 0x22, 0x3c, 0x84, 0xad, 0xb4, 0x6d,
+	0x2a, 0x95, 0x8b, 0x6a, 0xa4, 0x19, 0xa4, 0x89, 0xa5, 0xee, 0xc9, 0x3c, 0x14, 0x9c, 0x53, 0xaa,
+	0xf2, 0x27, 0x24, 0x7f, 0x46, 0xae, 0xb9, 0xe6, 0x4c, 0x6e, 0x39, 0xa5, 0x72, 0x0c, 0xae, 0xfc,
+	0x0d, 0x39, 0xa7, 0xa6, 0xbb, 0xe7, 0x25, 0x8d, 0x1d, 0x6c, 0x07, 0x38, 0xcd, 0xf4, 0xf7, 0xfd,
+	0xbe, 0x47, 0x7f, 0xfd, 0x3d, 0x66, 0x1a, 0x72, 0x8a, 0xa1, 0xd7, 0x0d, 0x93, 0xda, 0x14, 0x65,
+	0xa6, 0xec, 0x59, 0xb9, 0x3e, 0xd4, 0xed, 0x91, 0xd3, 0xaf, 0x0f, 0xe8, 0xa4, 0x31, 0xa4, 0x43,
+	0xda, 0x60, 0xe4, 0xbe, 0xf3, 0x9c, 0xad, 0xd8, 0x82, 0xbd, 0x71, 0xb1, 0x4a, 0x73, 0xef, 0xb6,
+	0x55, 0xd7, 0x69, 0x63, 0x60, 0xea, 0xd7, 0x15, 0x43, 0x6f, 0x18, 0x7b, 0xc3, 0x86, 0x62, 0xe8,
+	0x56, 0xc3, 0x74, 0x88, 0xad, 0x4f, 0xb4, 0xc6, 0xf4, 0x86, 0x32, 0x36, 0x46, 0x4a, 0xb3, 0xe1,
+	0x9b, 0xaa, 0x76, 0x60, 0xa5, 0xa5, 0x7e, 0xea, 0x58, 0xf6, 0x3a, 0x25, 0xb6, 0xa2, 0x13, 0xcd,
+	0xb4, 0xb0, 0xf6, 0x99, 0xa3, 0x59, 0x36, 0xba, 0x01, 0x59, 0xc7, 0x50, 0x15, 0x5b, 0xb3, 0x64,
+	0x69, 0x2d, 0x59, 0xcb, 0x37, 0x57, 0xea, 0xdc, 0xaf, 0xba, 0x8f, 0xdd, 0x65, 0x7c, 0xec, 0xe1,
+	0xaa, 0x4f, 0x40, 0x9e, 0xd7, 0x66, 0x19, 0x94, 0x58, 0x1a, 0x6a, 0x40, 0xe6, 0xb9, 0xa2, 0x8f,
+	0x35, 0xf5, 0x8f, 0xb4, 0x09, 0x58, 0xf5, 0x01, 0xe4, 0xbb, 0x3a, 0x19, 0x7a, 0xee, 0xfc, 0x1d,
+	0x8a, 0x26, 0x7f, 0xed, 0x11, 0x67, 0xd2, 0xd7, 0x4c, 0x59, 0x5a, 0x93, 0x6a, 0x05, 0x5c, 0x10,
+	0xd4, 0x4d, 0x46, 0x44, 0x65, 0x48, 0x4e, 0xac, 0xa1, 0x9c, 0x58, 0x93, 0x6a, 0x39, 0xec, 0xbe,
+	0x56, 0x3f, 0x84, 0x45, 0xae, 0x47, 0x38, 0x72, 0x62, 0x45, 0x59, 0x48, 0xb7, 0x27, 0x86, 0xbd,
+	0x5f, 0xbd, 0x06, 0xe5, 0x75, 0x4a, 0x9e, 0xeb, 0x43, 0xc7, 0xd4, 0x3c, 0xf7, 0x96, 0x21, 0x33,
+	0x60, 0x34, 0xa6, 0x2d, 0x87, 0xc5, 0xaa, 0xda, 0x85, 0xb3, 0x21, 0xac, 0x70, 0xa1, 0x08, 0x09,
+	0x5d, 0x15, 0xc0, 0x84, 0xae, 0xa2, 0x7f, 0x41, 0xce, 0x72, 0xfa, 0xd6, 0xc0, 0xd4, 0xfb, 0x9a,
+	0x9c, 0x58, 0x4b, 0xd6, 0x8a, 0xcd, 0x82, 0x17, 0x9e, 0xf6, 0x54, 0x23, 0x36, 0x0e, 0xf8, 0xd5,
+	0x1f, 0x92, 0x00, 0x5d, 0xaa, 0x6e, 0x2b, 0x44, 0xed, 0xd3, 0x17, 0x73, 0xba, 0x10, 0xa4, 0x88,
+	0x32, 0xd1, 0x84, 0xe3, 0xec, 0xdd, 0xdd, 0x8b, 0xa3, 0xab, 0x72, 0x92, 0xef, 0xc5, 0xd1, 0x55,
+	0x74, 0x01, 0x72, 0x2e, 0xc7, 0x32, 0x94, 0x81, 0x26, 0xa7, 0x18, 0x3d, 0x20, 0xa0, 0xff, 0x40,
+	0x66, 0xac, 0xf4, 0xb5, 0xb1, 0x25, 0xa7, 0xd9, 0x59, 0xad, 0x7a, 0xce, 0x04, 0x76, 0xeb, 0x1d,
+	0x06, 0x68, 0x13, 0xdb, 0xdc, 0xc7, 0x02, 0x8d, 0xda, 0x90, 0x57, 0x08, 0xa1, 0xb6, 0x62, 0xeb,
+	0x94, 0x58, 0x72, 0x86, 0x09, 0x5f, 0x8e, 0x11, 0x6e, 0x05, 0x28, 0xae, 0x21, 0x2c, 0x87, 0x2e,
+	0x43, 0x61, 0x30, 0x34, 0xa9, 0x63, 0xf4, 0x0c, 0xc5, 0xd4, 0x88, 0x2d, 0x67, 0x99, 0x83, 0x8b,
+	0x9c, 0xd8, 0x65, 0x34, 0x74, 0x09, 0xf2, 0x3e, 0xc8, 0x1e, 0xc9, 0x0b, 0x0c, 0x02, 0x1e, 0xc4,
+	0x1e, 0xa1, 0x7f, 0x42, 0x49, 0x24, 0x7e, 0x6f, 0xa4, 0x10, 0x75, 0xac, 0x99, 0x72, 0x8e, 0x81,
+	0x8a, 0x82, 0xfc, 0x90, 0x53, 0x2b, 0xff, 0x83, 0x7c, 0x68, 0x33, 0x6e, 0xb0, 0xf6, 0xb4, 0x7d,
+	0x11, 0x51, 0xf7, 0x15, 0x2d, 0x41, 0x7a, 0xaa, 0x8c, 0x1d, 0x2f, 0xa6, 0x7c, 0xf1, 0xff, 0xc4,
+	0x6d, 0xa9, 0x72, 0x17, 0xca, 0xb3, 0x5b, 0x39, 0x8e, 0x7c, 0x75, 0x0a, 0xa9, 0x87, 0x94, 0xee,
+	0xb9, 0x87, 0xc6, 0x76, 0xc1, 0x85, 0xd8, 0xbb, 0x4b, 0x53, 0xcc, 0xa1, 0xc5, 0xf2, 0x21, 0x87,
+	0xd9, 0x3b, 0xfa, 0x37, 0x24, 0x35, 0x32, 0x95, 0x93, 0x2c, 0xb0, 0x95, 0xba, 0xd8, 0x48, 0xdd,
+	0x2b, 0xec, 0xfa, 0x13, 0x6d, 0xff, 0x99, 0xab, 0x1c, 0xbb, 0x30, 0x24, 0x43, 0xd6, 0x65, 0x53,
+	0xc7, 0x66, 0x47, 0x9c, 0xc6, 0xde, 0xb2, 0xfa, 0x6d, 0x02, 0xd2, 0xae, 0x61, 0x0b, 0xd5, 0x60,
+	0xc1, 0x30, 0x35, 0xcb, 0x56, 0x4c, 0x5b, 0x14, 0xe6, 0xa2, 0x77, 0x5e, 0x2e, 0x00, 0xfb, 0x5c,
+	0x74, 0x13, 0x8a, 0x03, 0x53, 0x53, 0x6c, 0xad, 0x27, 0xcc, 0x32, 0xcf, 0x66, 0xf1, 0x05, 0x8e,
+	0xc1, 0x1c, 0x82, 0xfe, 0x0b, 0x65, 0x21, 0x34, 0xf0, 0xca, 0x5c, 0x78, 0x1f, 0x15, 0x2b, 0x71,
+	0x94, 0xdf, 0x0b, 0xd0, 0x2d, 0x28, 0x31, 0xb3, 0x21, 0xb9, 0x54, 0x8c, 0x5c, 0x91, 0x81, 0x02,
+	0xb1, 0x6b, 0x90, 0x33, 0xa8, 0x65, 0xf3, 0xfd, 0xa4, 0x63, 0x04, 0x02, 0x36, 0xdb, 0x3a, 0x5b,
+	0x50, 0x43, 0xa4, 0xea, 0xec, 0xd6, 0x05, 0xb7, 0xfa, 0x5d, 0x0a, 0xce, 0xfb, 0x36, 0xd6, 0x99,
+	0xa7, 0xbc, 0x59, 0x21, 0x0c, 0xa5, 0xb1, 0x4e, 0x9c, 0x17, 0x3d, 0x53, 0xb3, 0xa8, 0x63, 0x0e,
+	0x58, 0xb3, 0x94, 0x6a, 0xf9, 0xe6, 0xd5, 0xf9, 0xc3, 0xe9, 0xb8, 0x40, 0x5f, 0x0d, 0xf6, 0x04,
+	0x70, 0x91, 0x69, 0xf0, 0xd7, 0xa8, 0xe5, 0x57, 0x1f, 0x0f, 0xf0, 0xd5, 0xb9, 0x4e, 0x19, 0x76,
+	0x21, 0xb6, 0x10, 0xbb, 0xd1, 0x42, 0xe4, 0x11, 0xaf, 0x1f, 0xad, 0xe7, 0xe8, 0x9a, 0xac, 0x43,
+	0x4a, 0x23, 0x53, 0x4b, 0x1c, 0xc2, 0x51, 0xa9, 0xc7, 0x70, 0x6e, 0xbb, 0x9f, 0x50, 0x87, 0xd8,
+	0x5e, 0x0b, 0x59, 0x99, 0x97, 0x78, 0xea, 0xf2, 0xb1, 0x80, 0xa1, 0x26, 0x64, 0x55, 0x6d, 0xaa,
+	0xbb, 0x11, 0xe4, 0x87, 0x21, 0xcf, 0x4b, 0x6c, 0x30, 0x00, 0xf6, 0x80, 0xe8, 0x32, 0xa4, 0x47,
+	0x6e, 0x16, 0xcb, 0x59, 0x26, 0x51, 0x08, 0x1f, 0x9f, 0x85, 0x39, 0xef, 0x5d, 0x96, 0xf7, 0x37,
+	0x09, 0x28, 0xcd, 0x8c, 0x37, 0xf4, 0x37, 0x58, 0xf4, 0x53, 0xba, 0xe7, 0x77, 0xee, 0xbc, 0x4f,
+	0x7b, 0xa4, 0xc6, 0x25, 0x55, 0xe2, 0xb4, 0x49, 0xf5, 0x38, 0x2e, 0x23, 0x6a, 0x87, 0xcc, 0xe0,
+	0xa3, 0x73, 0xe1, 0xd4, 0x61, 0xf9, 0x35, 0x05, 0xb9, 0xa0, 0x64, 0x67, 0x07, 0xd8, 0x15, 0x28,
+	0x1a, 0x54, 0xed, 0x59, 0x7c, 0x54, 0xb8, 0x21, 0xe2, 0x0a, 0x16, 0x0d, 0x7f, 0x7e, 0x3c, 0x0a,
+	0xc6, 0x5c, 0x32, 0x34, 0xe6, 0x6e, 0xf9, 0x85, 0xc3, 0xb3, 0xf4, 0xe2, 0xdc, 0xf6, 0x62, 0x8b,
+	0x65, 0x23, 0x1a, 0x1a, 0x9e, 0xaf, 0xd5, 0x79, 0xd9, 0xa3, 0x0b, 0x44, 0x86, 0xec, 0x80, 0x4e,
+	0x26, 0x0a, 0x51, 0x59, 0xfe, 0xe6, 0xb0, 0xb7, 0xf4, 0x1b, 0x79, 0x36, 0xd4, 0xc8, 0xbd, 0x72,
+	0x5a, 0x38, 0x76, 0x39, 0xe5, 0x8e, 0x5d, 0x4e, 0xf0, 0xba, 0xe5, 0x14, 0x93, 0x77, 0xf9, 0x53,
+	0xe6, 0xdd, 0xbb, 0xac, 0xbe, 0x3b, 0xb0, 0x84, 0x1d, 0x12, 0x7c, 0x75, 0x78, 0x9f, 0x6a, 0x57,
+	0x20, 0x69, 0x50, 0x55, 0xf4, 0x69, 0x34, 0xff, 0x75, 0x82, 0x5d, 0x76, 0xf5, 0x7d, 0x38, 0xbf,
+	0x6d, 0x53, 0xe3, 0xa4, 0xe2, 0x1f, 0xc0, 0x0a, 0xd6, 0x26, 0x74, 0xaa, 0x9d, 0x54, 0x01, 0x85,
+	0xe5, 0xf5, 0xe8, 0x4c, 0x3c, 0x96, 0x3c, 0x6a, 0x40, 0x2e, 0x18, 0x9d, 0xbc, 0x7d, 0x9c, 0x9d,
+	0xcb, 0x69, 0x1c, 0x60, 0xaa, 0x5f, 0x49, 0xb0, 0x32, 0x67, 0x51, 0x7c, 0xb0, 0xde, 0x82, 0x0c,
+	0x1f, 0xd0, 0xc2, 0xea, 0xc5, 0x23, 0x47, 0x09, 0x16, 0xe0, 0xf0, 0x2f, 0x44, 0xe2, 0x35, 0x7f,
+	0x21, 0x88, 0x1b, 0xf6, 0xf0, 0x48, 0x7f, 0xc3, 0xbb, 0xfe, 0x29, 0x01, 0xcb, 0xdc, 0x87, 0xb7,
+	0x64, 0x31, 0xae, 0xca, 0x92, 0xa7, 0xed, 0xee, 0x1f, 0x45, 0x5b, 0x18, 0x6f, 0x7f, 0x0d, 0xcf,
+	0x8d, 0xf8, 0xfd, 0xbd, 0xe1, 0x26, 0xdf, 0x81, 0x95, 0x39, 0xbb, 0x22, 0x9b, 0x4e, 0xf0, 0x67,
+	0x39, 0x81, 0x25, 0xb7, 0x1a, 0xdf, 0x56, 0x56, 0x3c, 0xe6, 0xc5, 0xff, 0xa7, 0xb8, 0x4e, 0x61,
+	0x99, 0x77, 0x82, 0xb7, 0xe5, 0x3c, 0x05, 0xb4, 0xbd, 0x4f, 0x06, 0x23, 0x93, 0x12, 0xfd, 0x0b,
+	0xff, 0x07, 0xf5, 0x1f, 0x90, 0x32, 0xa8, 0xea, 0xb9, 0x1d, 0x67, 0x8d, 0xf1, 0xd1, 0x0d, 0x00,
+	0x5f, 0x95, 0x57, 0xb6, 0x31, 0xf6, 0x42, 0xa0, 0xea, 0x43, 0x38, 0x17, 0x31, 0x78, 0xe2, 0x58,
+	0x5d, 0xfb, 0x5e, 0x82, 0x34, 0xfb, 0xe1, 0x45, 0xe7, 0xa0, 0x84, 0x77, 0x37, 0x7b, 0xdd, 0xad,
+	0x8d, 0xde, 0x76, 0x6b, 0x73, 0xe3, 0xfe, 0xd6, 0xc7, 0xe5, 0x33, 0x68, 0x09, 0xca, 0xdb, 0x3b,
+	0x5b, 0xdd, 0x08, 0x55, 0x42, 0xcb, 0x80, 0x70, 0xfb, 0xe9, 0xd6, 0xb3, 0x76, 0x84, 0x9e, 0x70,
+	0xd1, 0xeb, 0xb8, 0xdd, 0xda, 0x69, 0xf7, 0xd6, 0xb7, 0x36, 0x77, 0x5a, 0x8f, 0x36, 0xdb, 0xb8,
+	0x9c, 0x74, 0x15, 0x6f, 0xef, 0xb4, 0xf0, 0x4e, 0x88, 0x98, 0x72, 0xa1, 0xbb, 0xdd, 0x8d, 0x28,
+	0x34, 0x8d, 0x10, 0x14, 0x99, 0xb9, 0x80, 0x96, 0x71, 0x91, 0xc2, 0x58, 0x40, 0xcd, 0xa2, 0x2c,
+	0x24, 0x5b, 0x9d, 0x4e, 0x79, 0xa1, 0xf9, 0xb5, 0x04, 0x59, 0xef, 0xdf, 0x67, 0x17, 0xca, 0xb3,
+	0xb7, 0x21, 0xe8, 0x92, 0x17, 0x82, 0x43, 0x6e, 0x5d, 0x2a, 0x6b, 0x87, 0x03, 0xfc, 0xb0, 0xa6,
+	0xba, 0x3a, 0x19, 0xa2, 0x73, 0xfe, 0x11, 0x06, 0xb7, 0x24, 0x95, 0xa5, 0x28, 0x91, 0x8b, 0x34,
+	0x7f, 0x4b, 0x43, 0xa6, 0x3b, 0x76, 0x86, 0x3a, 0x41, 0xf7, 0xd8, 0xa7, 0x17, 0xbf, 0x8f, 0x40,
+	0x72, 0xe8, 0x40, 0x22, 0xd7, 0x19, 0x95, 0xbf, 0xc4, 0x70, 0x84, 0xfd, 0x07, 0x90, 0x0f, 0x9d,
+	0x36, 0xaa, 0x78, 0xc8, 0xf9, 0x9c, 0xab, 0xfc, 0x35, 0x96, 0x27, 0xf4, 0xd4, 0x60, 0x61, 0x7b,
+	0xe4, 0xd8, 0x2a, 0xfd, 0x9c, 0xa0, 0xe0, 0xb6, 0x63, 0x62, 0xd8, 0xfb, 0x95, 0xe8, 0x12, 0xdd,
+	0x81, 0x42, 0x64, 0x90, 0xa3, 0x0b, 0x1e, 0x3f, 0x6e, 0xbe, 0xcf, 0x4a, 0xdf, 0x85, 0x62, 0x74,
+	0x90, 0x23, 0x7f, 0x7a, 0xc5, 0x0e, 0xf8, 0x59, 0xf9, 0xfb, 0x50, 0x9e, 0x9d, 0xe4, 0xc1, 0x31,
+	0x1e, 0x32, 0xe3, 0x67, 0x75, 0x60, 0x28, 0xcd, 0x8c, 0x56, 0xe4, 0xdf, 0xa9, 0xc4, 0x4f, 0xf9,
+	0xca, 0xa5, 0x43, 0xf9, 0x22, 0x7e, 0x6c, 0x5f, 0x91, 0x9f, 0xdf, 0xd0, 0xbe, 0x62, 0x26, 0x68,
+	0x8c, 0x4f, 0x33, 0x0d, 0x3a, 0xf0, 0x29, 0x7e, 0x62, 0x04, 0x3e, 0x1d, 0xd6, 0xd9, 0x3b, 0x50,
+	0x88, 0xf4, 0xcd, 0xe0, 0xa4, 0xe2, 0xba, 0x77, 0xe5, 0xe2, 0x21, 0x5c, 0xa1, 0xed, 0x1e, 0x94,
+	0x66, 0x3a, 0x67, 0xe0, 0x61, 0x7c, 0x4b, 0x9d, 0xd9, 0xe3, 0xfd, 0xce, 0xcb, 0x57, 0xab, 0xd2,
+	0xcf, 0xaf, 0x56, 0xcf, 0x7c, 0x79, 0xb0, 0x2a, 0xbd, 0x3c, 0x58, 0x95, 0x7e, 0x3c, 0x58, 0x95,
+	0x7e, 0x39, 0x58, 0x95, 0x3e, 0x69, 0x86, 0xee, 0x56, 0xfd, 0x56, 0xa6, 0x36, 0x88, 0xa9, 0x37,
+	0xd8, 0xdd, 0x29, 0xab, 0x96, 0x06, 0x57, 0xf6, 0x1e, 0x7f, 0xf4, 0x33, 0xec, 0x71, 0xf3, 0xf7,
+	0x00, 0x00, 0x00, 0xff, 0xff, 0xb0, 0x63, 0x59, 0x65, 0xab, 0x15, 0x00, 0x00,
 }
 
 func (m *AdjustContainersRequest) Marshal() (dAtA []byte, err error) {
@@ -1732,6 +1843,10 @@ func (m *AdjustContainersRequest) MarshalToSizedBuffer(dAtA []byte) (int, error)
 	_ = i
 	var l int
 	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
 	if len(m.Updates) > 0 {
 		for iNdEx := len(m.Updates) - 1; iNdEx >= 0; iNdEx-- {
 			{
@@ -1769,6 +1884,10 @@ func (m *AdjustContainersResponse) MarshalToSizedBuffer(dAtA []byte) (int, error
 	_ = i
 	var l int
 	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
 	if len(m.Failed) > 0 {
 		for iNdEx := len(m.Failed) - 1; iNdEx >= 0; iNdEx-- {
 			{
@@ -1806,6 +1925,10 @@ func (m *PingRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
 	if len(m.Msg) > 0 {
 		i -= len(m.Msg)
 		copy(dAtA[i:], m.Msg)
@@ -1841,6 +1964,10 @@ func (m *PingResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
 	if len(m.Msg) > 0 {
 		i -= len(m.Msg)
 		copy(dAtA[i:], m.Msg)
@@ -1852,6 +1979,33 @@ func (m *PingResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i = encodeVarintApi(dAtA, i, uint64(m.RequestNumber))
 		i--
 		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *Empty) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *Empty) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Empty) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return len(dAtA) - i, nil
 }
@@ -1876,6 +2030,10 @@ func (m *ConfigureRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
 	if len(m.Config) > 0 {
 		i -= len(m.Config)
 		copy(dAtA[i:], m.Config)
@@ -1906,6 +2064,10 @@ func (m *ConfigureResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
 	if len(m.Subscribe) > 0 {
 		dAtA2 := make([]byte, len(m.Subscribe)*10)
 		var j1 int
@@ -1954,6 +2116,10 @@ func (m *PodSandbox) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
 	if len(m.RuntimeHandler) > 0 {
 		i -= len(m.RuntimeHandler)
 		copy(dAtA[i:], m.RuntimeHandler)
@@ -2064,6 +2230,10 @@ func (m *Hook) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
 	if m.Timeout != 0 {
 		i = encodeVarintApi(dAtA, i, uint64(m.Timeout))
 		i--
@@ -2122,6 +2292,10 @@ func (m *Hooks) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
 	if len(m.Poststop) > 0 {
 		for iNdEx := len(m.Poststop) - 1; iNdEx >= 0; iNdEx-- {
 			{
@@ -2229,6 +2403,10 @@ func (m *ContainerCreateUpdate) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
 	if len(m.Hooks) > 0 {
 		for iNdEx := len(m.Hooks) - 1; iNdEx >= 0; iNdEx-- {
 			{
@@ -2358,6 +2536,10 @@ func (m *ContainerUpdate) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
 	if len(m.Annotations) > 0 {
 		for k := range m.Annotations {
 			v := m.Annotations[k]
@@ -2419,6 +2601,10 @@ func (m *Container) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
 	if m.LinuxResources != nil {
 		{
 			size, err := m.LinuxResources.MarshalToSizedBuffer(dAtA[:i])
@@ -2573,6 +2759,10 @@ func (m *RunPodSandboxRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
 	if m.Pod != nil {
 		{
 			size, err := m.Pod.MarshalToSizedBuffer(dAtA[:i])
@@ -2608,6 +2798,10 @@ func (m *StopPodSandboxRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
 	if m.Pod != nil {
 		{
 			size, err := m.Pod.MarshalToSizedBuffer(dAtA[:i])
@@ -2643,6 +2837,10 @@ func (m *RemovePodSandboxRequest) MarshalToSizedBuffer(dAtA []byte) (int, error)
 	_ = i
 	var l int
 	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
 	if m.Pod != nil {
 		{
 			size, err := m.Pod.MarshalToSizedBuffer(dAtA[:i])
@@ -2678,6 +2876,10 @@ func (m *CreateContainerRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) 
 	_ = i
 	var l int
 	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
 	if m.Container != nil {
 		{
 			size, err := m.Container.MarshalToSizedBuffer(dAtA[:i])
@@ -2725,6 +2927,10 @@ func (m *CreateContainerResponse) MarshalToSizedBuffer(dAtA []byte) (int, error)
 	_ = i
 	var l int
 	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
 	if len(m.Updates) > 0 {
 		for iNdEx := len(m.Updates) - 1; iNdEx >= 0; iNdEx-- {
 			{
@@ -2774,6 +2980,10 @@ func (m *StartContainerRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
 	if m.Container != nil {
 		{
 			size, err := m.Container.MarshalToSizedBuffer(dAtA[:i])
@@ -2821,6 +3031,10 @@ func (m *UpdateContainerRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) 
 	_ = i
 	var l int
 	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
 	if len(m.Annotations) > 0 {
 		for k := range m.Annotations {
 			v := m.Annotations[k]
@@ -2899,6 +3113,10 @@ func (m *UpdateContainerResponse) MarshalToSizedBuffer(dAtA []byte) (int, error)
 	_ = i
 	var l int
 	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
 	if len(m.Updates) > 0 {
 		for iNdEx := len(m.Updates) - 1; iNdEx >= 0; iNdEx-- {
 			{
@@ -2936,6 +3154,10 @@ func (m *StopContainerRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
 	if m.Container != nil {
 		{
 			size, err := m.Container.MarshalToSizedBuffer(dAtA[:i])
@@ -2983,6 +3205,10 @@ func (m *StopContainerResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
 	if len(m.Updates) > 0 {
 		for iNdEx := len(m.Updates) - 1; iNdEx >= 0; iNdEx-- {
 			{
@@ -3020,6 +3246,10 @@ func (m *RemoveContainerRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) 
 	_ = i
 	var l int
 	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
 	if m.Container != nil {
 		{
 			size, err := m.Container.MarshalToSizedBuffer(dAtA[:i])
@@ -3067,6 +3297,10 @@ func (m *SynchronizeRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
 	if len(m.Containers) > 0 {
 		for iNdEx := len(m.Containers) - 1; iNdEx >= 0; iNdEx-- {
 			{
@@ -3118,6 +3352,10 @@ func (m *SynchronizeResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
 	if len(m.Updates) > 0 {
 		for iNdEx := len(m.Updates) - 1; iNdEx >= 0; iNdEx-- {
 			{
@@ -3158,6 +3396,9 @@ func (m *AdjustContainersRequest) Size() (n int) {
 			n += 1 + l + sovApi(uint64(l))
 		}
 	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
 	return n
 }
 
@@ -3172,6 +3413,9 @@ func (m *AdjustContainersResponse) Size() (n int) {
 			l = e.Size()
 			n += 1 + l + sovApi(uint64(l))
 		}
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
 	}
 	return n
 }
@@ -3189,6 +3433,9 @@ func (m *PingRequest) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovApi(uint64(l))
 	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
 	return n
 }
 
@@ -3205,6 +3452,21 @@ func (m *PingResponse) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovApi(uint64(l))
 	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *Empty) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
 	return n
 }
 
@@ -3217,6 +3479,9 @@ func (m *ConfigureRequest) Size() (n int) {
 	l = len(m.Config)
 	if l > 0 {
 		n += 1 + l + sovApi(uint64(l))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
 	}
 	return n
 }
@@ -3237,6 +3502,9 @@ func (m *ConfigureResponse) Size() (n int) {
 			l += sovApi(uint64(e))
 		}
 		n += 1 + sovApi(uint64(l)) + l
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
 	}
 	return n
 }
@@ -3291,6 +3559,9 @@ func (m *PodSandbox) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovApi(uint64(l))
 	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
 	return n
 }
 
@@ -3318,6 +3589,9 @@ func (m *Hook) Size() (n int) {
 	}
 	if m.Timeout != 0 {
 		n += 1 + sovApi(uint64(m.Timeout))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
 	}
 	return n
 }
@@ -3363,6 +3637,9 @@ func (m *Hooks) Size() (n int) {
 			l = e.Size()
 			n += 1 + l + sovApi(uint64(l))
 		}
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
 	}
 	return n
 }
@@ -3417,6 +3694,9 @@ func (m *ContainerCreateUpdate) Size() (n int) {
 			n += 1 + l + sovApi(uint64(l))
 		}
 	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
 	return n
 }
 
@@ -3441,6 +3721,9 @@ func (m *ContainerUpdate) Size() (n int) {
 			mapEntrySize := 1 + len(k) + sovApi(uint64(len(k))) + 1 + len(v) + sovApi(uint64(len(v)))
 			n += mapEntrySize + 1 + sovApi(uint64(mapEntrySize))
 		}
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
 	}
 	return n
 }
@@ -3513,6 +3796,9 @@ func (m *Container) Size() (n int) {
 		l = m.LinuxResources.Size()
 		n += 1 + l + sovApi(uint64(l))
 	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
 	return n
 }
 
@@ -3525,6 +3811,9 @@ func (m *RunPodSandboxRequest) Size() (n int) {
 	if m.Pod != nil {
 		l = m.Pod.Size()
 		n += 1 + l + sovApi(uint64(l))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
 	}
 	return n
 }
@@ -3539,6 +3828,9 @@ func (m *StopPodSandboxRequest) Size() (n int) {
 		l = m.Pod.Size()
 		n += 1 + l + sovApi(uint64(l))
 	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
 	return n
 }
 
@@ -3551,6 +3843,9 @@ func (m *RemovePodSandboxRequest) Size() (n int) {
 	if m.Pod != nil {
 		l = m.Pod.Size()
 		n += 1 + l + sovApi(uint64(l))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
 	}
 	return n
 }
@@ -3568,6 +3863,9 @@ func (m *CreateContainerRequest) Size() (n int) {
 	if m.Container != nil {
 		l = m.Container.Size()
 		n += 1 + l + sovApi(uint64(l))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
 	}
 	return n
 }
@@ -3588,6 +3886,9 @@ func (m *CreateContainerResponse) Size() (n int) {
 			n += 1 + l + sovApi(uint64(l))
 		}
 	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
 	return n
 }
 
@@ -3604,6 +3905,9 @@ func (m *StartContainerRequest) Size() (n int) {
 	if m.Container != nil {
 		l = m.Container.Size()
 		n += 1 + l + sovApi(uint64(l))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
 	}
 	return n
 }
@@ -3634,6 +3938,9 @@ func (m *UpdateContainerRequest) Size() (n int) {
 			n += mapEntrySize + 1 + sovApi(uint64(mapEntrySize))
 		}
 	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
 	return n
 }
 
@@ -3648,6 +3955,9 @@ func (m *UpdateContainerResponse) Size() (n int) {
 			l = e.Size()
 			n += 1 + l + sovApi(uint64(l))
 		}
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
 	}
 	return n
 }
@@ -3666,6 +3976,9 @@ func (m *StopContainerRequest) Size() (n int) {
 		l = m.Container.Size()
 		n += 1 + l + sovApi(uint64(l))
 	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
 	return n
 }
 
@@ -3680,6 +3993,9 @@ func (m *StopContainerResponse) Size() (n int) {
 			l = e.Size()
 			n += 1 + l + sovApi(uint64(l))
 		}
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
 	}
 	return n
 }
@@ -3697,6 +4013,9 @@ func (m *RemoveContainerRequest) Size() (n int) {
 	if m.Container != nil {
 		l = m.Container.Size()
 		n += 1 + l + sovApi(uint64(l))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
 	}
 	return n
 }
@@ -3719,6 +4038,9 @@ func (m *SynchronizeRequest) Size() (n int) {
 			n += 1 + l + sovApi(uint64(l))
 		}
 	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
 	return n
 }
 
@@ -3733,6 +4055,9 @@ func (m *SynchronizeResponse) Size() (n int) {
 			l = e.Size()
 			n += 1 + l + sovApi(uint64(l))
 		}
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
 	}
 	return n
 }
@@ -3754,6 +4079,7 @@ func (this *AdjustContainersRequest) String() string {
 	repeatedStringForUpdates += "}"
 	s := strings.Join([]string{`&AdjustContainersRequest{`,
 		`Updates:` + repeatedStringForUpdates + `,`,
+		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
 		`}`,
 	}, "")
 	return s
@@ -3769,6 +4095,7 @@ func (this *AdjustContainersResponse) String() string {
 	repeatedStringForFailed += "}"
 	s := strings.Join([]string{`&AdjustContainersResponse{`,
 		`Failed:` + repeatedStringForFailed + `,`,
+		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
 		`}`,
 	}, "")
 	return s
@@ -3780,6 +4107,7 @@ func (this *PingRequest) String() string {
 	s := strings.Join([]string{`&PingRequest{`,
 		`RequestNumber:` + fmt.Sprintf("%v", this.RequestNumber) + `,`,
 		`Msg:` + fmt.Sprintf("%v", this.Msg) + `,`,
+		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
 		`}`,
 	}, "")
 	return s
@@ -3791,6 +4119,17 @@ func (this *PingResponse) String() string {
 	s := strings.Join([]string{`&PingResponse{`,
 		`RequestNumber:` + fmt.Sprintf("%v", this.RequestNumber) + `,`,
 		`Msg:` + fmt.Sprintf("%v", this.Msg) + `,`,
+		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *Empty) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&Empty{`,
+		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
 		`}`,
 	}, "")
 	return s
@@ -3801,6 +4140,7 @@ func (this *ConfigureRequest) String() string {
 	}
 	s := strings.Join([]string{`&ConfigureRequest{`,
 		`Config:` + fmt.Sprintf("%v", this.Config) + `,`,
+		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
 		`}`,
 	}, "")
 	return s
@@ -3812,6 +4152,7 @@ func (this *ConfigureResponse) String() string {
 	s := strings.Join([]string{`&ConfigureResponse{`,
 		`Id:` + fmt.Sprintf("%v", this.Id) + `,`,
 		`Subscribe:` + fmt.Sprintf("%v", this.Subscribe) + `,`,
+		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
 		`}`,
 	}, "")
 	return s
@@ -3850,6 +4191,7 @@ func (this *PodSandbox) String() string {
 		`CgroupParent:` + fmt.Sprintf("%v", this.CgroupParent) + `,`,
 		`CgroupPath:` + fmt.Sprintf("%v", this.CgroupPath) + `,`,
 		`RuntimeHandler:` + fmt.Sprintf("%v", this.RuntimeHandler) + `,`,
+		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
 		`}`,
 	}, "")
 	return s
@@ -3868,6 +4210,7 @@ func (this *Hook) String() string {
 		`Args:` + fmt.Sprintf("%v", this.Args) + `,`,
 		`Env:` + repeatedStringForEnv + `,`,
 		`Timeout:` + fmt.Sprintf("%v", this.Timeout) + `,`,
+		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
 		`}`,
 	}, "")
 	return s
@@ -3913,6 +4256,7 @@ func (this *Hooks) String() string {
 		`StartContainer:` + repeatedStringForStartContainer + `,`,
 		`Poststart:` + repeatedStringForPoststart + `,`,
 		`Poststop:` + repeatedStringForPoststop + `,`,
+		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
 		`}`,
 	}, "")
 	return s
@@ -3969,6 +4313,7 @@ func (this *ContainerCreateUpdate) String() string {
 		`Mounts:` + repeatedStringForMounts + `,`,
 		`Devices:` + repeatedStringForDevices + `,`,
 		`Hooks:` + repeatedStringForHooks + `,`,
+		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
 		`}`,
 	}, "")
 	return s
@@ -3991,6 +4336,7 @@ func (this *ContainerUpdate) String() string {
 		`ContainerId:` + fmt.Sprintf("%v", this.ContainerId) + `,`,
 		`LinuxResources:` + strings.Replace(fmt.Sprintf("%v", this.LinuxResources), "LinuxContainerResources", "v1alpha2.LinuxContainerResources", 1) + `,`,
 		`Annotations:` + mapStringForAnnotations + `,`,
+		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
 		`}`,
 	}, "")
 	return s
@@ -4046,6 +4392,7 @@ func (this *Container) String() string {
 		`Mounts:` + repeatedStringForMounts + `,`,
 		`Devices:` + repeatedStringForDevices + `,`,
 		`LinuxResources:` + strings.Replace(fmt.Sprintf("%v", this.LinuxResources), "LinuxContainerResources", "v1alpha2.LinuxContainerResources", 1) + `,`,
+		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
 		`}`,
 	}, "")
 	return s
@@ -4056,6 +4403,7 @@ func (this *RunPodSandboxRequest) String() string {
 	}
 	s := strings.Join([]string{`&RunPodSandboxRequest{`,
 		`Pod:` + strings.Replace(this.Pod.String(), "PodSandbox", "PodSandbox", 1) + `,`,
+		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
 		`}`,
 	}, "")
 	return s
@@ -4066,6 +4414,7 @@ func (this *StopPodSandboxRequest) String() string {
 	}
 	s := strings.Join([]string{`&StopPodSandboxRequest{`,
 		`Pod:` + strings.Replace(this.Pod.String(), "PodSandbox", "PodSandbox", 1) + `,`,
+		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
 		`}`,
 	}, "")
 	return s
@@ -4076,6 +4425,7 @@ func (this *RemovePodSandboxRequest) String() string {
 	}
 	s := strings.Join([]string{`&RemovePodSandboxRequest{`,
 		`Pod:` + strings.Replace(this.Pod.String(), "PodSandbox", "PodSandbox", 1) + `,`,
+		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
 		`}`,
 	}, "")
 	return s
@@ -4087,6 +4437,7 @@ func (this *CreateContainerRequest) String() string {
 	s := strings.Join([]string{`&CreateContainerRequest{`,
 		`Pod:` + strings.Replace(this.Pod.String(), "PodSandbox", "PodSandbox", 1) + `,`,
 		`Container:` + strings.Replace(this.Container.String(), "Container", "Container", 1) + `,`,
+		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
 		`}`,
 	}, "")
 	return s
@@ -4103,6 +4454,7 @@ func (this *CreateContainerResponse) String() string {
 	s := strings.Join([]string{`&CreateContainerResponse{`,
 		`Create:` + strings.Replace(this.Create.String(), "ContainerCreateUpdate", "ContainerCreateUpdate", 1) + `,`,
 		`Updates:` + repeatedStringForUpdates + `,`,
+		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
 		`}`,
 	}, "")
 	return s
@@ -4114,6 +4466,7 @@ func (this *StartContainerRequest) String() string {
 	s := strings.Join([]string{`&StartContainerRequest{`,
 		`Pod:` + strings.Replace(this.Pod.String(), "PodSandbox", "PodSandbox", 1) + `,`,
 		`Container:` + strings.Replace(this.Container.String(), "Container", "Container", 1) + `,`,
+		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
 		`}`,
 	}, "")
 	return s
@@ -4137,6 +4490,7 @@ func (this *UpdateContainerRequest) String() string {
 		`Container:` + strings.Replace(this.Container.String(), "Container", "Container", 1) + `,`,
 		`LinuxResources:` + strings.Replace(fmt.Sprintf("%v", this.LinuxResources), "LinuxContainerResources", "v1alpha2.LinuxContainerResources", 1) + `,`,
 		`Annotations:` + mapStringForAnnotations + `,`,
+		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
 		`}`,
 	}, "")
 	return s
@@ -4152,6 +4506,7 @@ func (this *UpdateContainerResponse) String() string {
 	repeatedStringForUpdates += "}"
 	s := strings.Join([]string{`&UpdateContainerResponse{`,
 		`Updates:` + repeatedStringForUpdates + `,`,
+		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
 		`}`,
 	}, "")
 	return s
@@ -4163,6 +4518,7 @@ func (this *StopContainerRequest) String() string {
 	s := strings.Join([]string{`&StopContainerRequest{`,
 		`Pod:` + strings.Replace(this.Pod.String(), "PodSandbox", "PodSandbox", 1) + `,`,
 		`Container:` + strings.Replace(this.Container.String(), "Container", "Container", 1) + `,`,
+		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
 		`}`,
 	}, "")
 	return s
@@ -4178,6 +4534,7 @@ func (this *StopContainerResponse) String() string {
 	repeatedStringForUpdates += "}"
 	s := strings.Join([]string{`&StopContainerResponse{`,
 		`Updates:` + repeatedStringForUpdates + `,`,
+		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
 		`}`,
 	}, "")
 	return s
@@ -4189,6 +4546,7 @@ func (this *RemoveContainerRequest) String() string {
 	s := strings.Join([]string{`&RemoveContainerRequest{`,
 		`Pod:` + strings.Replace(this.Pod.String(), "PodSandbox", "PodSandbox", 1) + `,`,
 		`Container:` + strings.Replace(this.Container.String(), "Container", "Container", 1) + `,`,
+		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
 		`}`,
 	}, "")
 	return s
@@ -4210,6 +4568,7 @@ func (this *SynchronizeRequest) String() string {
 	s := strings.Join([]string{`&SynchronizeRequest{`,
 		`Pods:` + repeatedStringForPods + `,`,
 		`Containers:` + repeatedStringForContainers + `,`,
+		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
 		`}`,
 	}, "")
 	return s
@@ -4225,6 +4584,7 @@ func (this *SynchronizeResponse) String() string {
 	repeatedStringForUpdates += "}"
 	s := strings.Join([]string{`&SynchronizeResponse{`,
 		`Updates:` + repeatedStringForUpdates + `,`,
+		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
 		`}`,
 	}, "")
 	return s
@@ -4291,15 +4651,15 @@ func (c *runtimeClient) Ping(ctx context.Context, req *PingRequest) (*PingRespon
 type PluginService interface {
 	Configure(ctx context.Context, req *ConfigureRequest) (*ConfigureResponse, error)
 	Synchronize(ctx context.Context, req *SynchronizeRequest) (*SynchronizeResponse, error)
-	Shutdown(ctx context.Context, req *empty.Empty) (*empty.Empty, error)
-	RunPodSandbox(ctx context.Context, req *RunPodSandboxRequest) (*empty.Empty, error)
-	StopPodSandbox(ctx context.Context, req *StopPodSandboxRequest) (*empty.Empty, error)
-	RemovePodSandbox(ctx context.Context, req *RemovePodSandboxRequest) (*empty.Empty, error)
+	Shutdown(ctx context.Context, req *Empty) (*Empty, error)
+	RunPodSandbox(ctx context.Context, req *RunPodSandboxRequest) (*Empty, error)
+	StopPodSandbox(ctx context.Context, req *StopPodSandboxRequest) (*Empty, error)
+	RemovePodSandbox(ctx context.Context, req *RemovePodSandboxRequest) (*Empty, error)
 	CreateContainer(ctx context.Context, req *CreateContainerRequest) (*CreateContainerResponse, error)
-	StartContainer(ctx context.Context, req *StartContainerRequest) (*empty.Empty, error)
+	StartContainer(ctx context.Context, req *StartContainerRequest) (*Empty, error)
 	UpdateContainer(ctx context.Context, req *UpdateContainerRequest) (*UpdateContainerResponse, error)
 	StopContainer(ctx context.Context, req *StopContainerRequest) (*StopContainerResponse, error)
-	RemoveContainer(ctx context.Context, req *RemoveContainerRequest) (*empty.Empty, error)
+	RemoveContainer(ctx context.Context, req *RemoveContainerRequest) (*Empty, error)
 }
 
 func RegisterPluginService(srv *github_com_containerd_ttrpc.Server, svc PluginService) {
@@ -4319,7 +4679,7 @@ func RegisterPluginService(srv *github_com_containerd_ttrpc.Server, svc PluginSe
 			return svc.Synchronize(ctx, &req)
 		},
 		"Shutdown": func(ctx context.Context, unmarshal func(interface{}) error) (interface{}, error) {
-			var req empty.Empty
+			var req Empty
 			if err := unmarshal(&req); err != nil {
 				return nil, err
 			}
@@ -4410,32 +4770,32 @@ func (c *pluginClient) Synchronize(ctx context.Context, req *SynchronizeRequest)
 	return &resp, nil
 }
 
-func (c *pluginClient) Shutdown(ctx context.Context, req *empty.Empty) (*empty.Empty, error) {
-	var resp empty.Empty
+func (c *pluginClient) Shutdown(ctx context.Context, req *Empty) (*Empty, error) {
+	var resp Empty
 	if err := c.client.Call(ctx, "vproto.Plugin", "Shutdown", req, &resp); err != nil {
 		return nil, err
 	}
 	return &resp, nil
 }
 
-func (c *pluginClient) RunPodSandbox(ctx context.Context, req *RunPodSandboxRequest) (*empty.Empty, error) {
-	var resp empty.Empty
+func (c *pluginClient) RunPodSandbox(ctx context.Context, req *RunPodSandboxRequest) (*Empty, error) {
+	var resp Empty
 	if err := c.client.Call(ctx, "vproto.Plugin", "RunPodSandbox", req, &resp); err != nil {
 		return nil, err
 	}
 	return &resp, nil
 }
 
-func (c *pluginClient) StopPodSandbox(ctx context.Context, req *StopPodSandboxRequest) (*empty.Empty, error) {
-	var resp empty.Empty
+func (c *pluginClient) StopPodSandbox(ctx context.Context, req *StopPodSandboxRequest) (*Empty, error) {
+	var resp Empty
 	if err := c.client.Call(ctx, "vproto.Plugin", "StopPodSandbox", req, &resp); err != nil {
 		return nil, err
 	}
 	return &resp, nil
 }
 
-func (c *pluginClient) RemovePodSandbox(ctx context.Context, req *RemovePodSandboxRequest) (*empty.Empty, error) {
-	var resp empty.Empty
+func (c *pluginClient) RemovePodSandbox(ctx context.Context, req *RemovePodSandboxRequest) (*Empty, error) {
+	var resp Empty
 	if err := c.client.Call(ctx, "vproto.Plugin", "RemovePodSandbox", req, &resp); err != nil {
 		return nil, err
 	}
@@ -4450,8 +4810,8 @@ func (c *pluginClient) CreateContainer(ctx context.Context, req *CreateContainer
 	return &resp, nil
 }
 
-func (c *pluginClient) StartContainer(ctx context.Context, req *StartContainerRequest) (*empty.Empty, error) {
-	var resp empty.Empty
+func (c *pluginClient) StartContainer(ctx context.Context, req *StartContainerRequest) (*Empty, error) {
+	var resp Empty
 	if err := c.client.Call(ctx, "vproto.Plugin", "StartContainer", req, &resp); err != nil {
 		return nil, err
 	}
@@ -4474,8 +4834,8 @@ func (c *pluginClient) StopContainer(ctx context.Context, req *StopContainerRequ
 	return &resp, nil
 }
 
-func (c *pluginClient) RemoveContainer(ctx context.Context, req *RemoveContainerRequest) (*empty.Empty, error) {
-	var resp empty.Empty
+func (c *pluginClient) RemoveContainer(ctx context.Context, req *RemoveContainerRequest) (*Empty, error) {
+	var resp Empty
 	if err := c.client.Call(ctx, "vproto.Plugin", "RemoveContainer", req, &resp); err != nil {
 		return nil, err
 	}
@@ -4550,15 +4910,13 @@ func (m *AdjustContainersRequest) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthApi
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthApi
 			}
 			if (iNdEx + skippy) > l {
 				return io.ErrUnexpectedEOF
 			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
 			iNdEx += skippy
 		}
 	}
@@ -4637,15 +4995,13 @@ func (m *AdjustContainersResponse) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthApi
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthApi
 			}
 			if (iNdEx + skippy) > l {
 				return io.ErrUnexpectedEOF
 			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
 			iNdEx += skippy
 		}
 	}
@@ -4741,15 +5097,13 @@ func (m *PingRequest) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthApi
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthApi
 			}
 			if (iNdEx + skippy) > l {
 				return io.ErrUnexpectedEOF
 			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
 			iNdEx += skippy
 		}
 	}
@@ -4845,15 +5199,64 @@ func (m *PingResponse) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthApi
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthApi
 			}
 			if (iNdEx + skippy) > l {
 				return io.ErrUnexpectedEOF
 			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *Empty) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowApi
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: Empty: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: Empty: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipApi(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthApi
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
 			iNdEx += skippy
 		}
 	}
@@ -4930,15 +5333,13 @@ func (m *ConfigureRequest) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthApi
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthApi
 			}
 			if (iNdEx + skippy) > l {
 				return io.ErrUnexpectedEOF
 			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
 			iNdEx += skippy
 		}
 	}
@@ -5084,15 +5485,13 @@ func (m *ConfigureResponse) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthApi
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthApi
 			}
 			if (iNdEx + skippy) > l {
 				return io.ErrUnexpectedEOF
 			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
 			iNdEx += skippy
 		}
 	}
@@ -5375,7 +5774,7 @@ func (m *PodSandbox) Unmarshal(dAtA []byte) error {
 					if err != nil {
 						return err
 					}
-					if skippy < 0 {
+					if (skippy < 0) || (iNdEx+skippy) < 0 {
 						return ErrInvalidLengthApi
 					}
 					if (iNdEx + skippy) > postIndex {
@@ -5502,7 +5901,7 @@ func (m *PodSandbox) Unmarshal(dAtA []byte) error {
 					if err != nil {
 						return err
 					}
-					if skippy < 0 {
+					if (skippy < 0) || (iNdEx+skippy) < 0 {
 						return ErrInvalidLengthApi
 					}
 					if (iNdEx + skippy) > postIndex {
@@ -5615,15 +6014,13 @@ func (m *PodSandbox) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthApi
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthApi
 			}
 			if (iNdEx + skippy) > l {
 				return io.ErrUnexpectedEOF
 			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
 			iNdEx += skippy
 		}
 	}
@@ -5785,15 +6182,13 @@ func (m *Hook) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthApi
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthApi
 			}
 			if (iNdEx + skippy) > l {
 				return io.ErrUnexpectedEOF
 			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
 			iNdEx += skippy
 		}
 	}
@@ -6042,15 +6437,13 @@ func (m *Hooks) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthApi
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthApi
 			}
 			if (iNdEx + skippy) > l {
 				return io.ErrUnexpectedEOF
 			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
 			iNdEx += skippy
 		}
 	}
@@ -6241,7 +6634,7 @@ func (m *ContainerCreateUpdate) Unmarshal(dAtA []byte) error {
 					if err != nil {
 						return err
 					}
-					if skippy < 0 {
+					if (skippy < 0) || (iNdEx+skippy) < 0 {
 						return ErrInvalidLengthApi
 					}
 					if (iNdEx + skippy) > postIndex {
@@ -6368,7 +6761,7 @@ func (m *ContainerCreateUpdate) Unmarshal(dAtA []byte) error {
 					if err != nil {
 						return err
 					}
-					if skippy < 0 {
+					if (skippy < 0) || (iNdEx+skippy) < 0 {
 						return ErrInvalidLengthApi
 					}
 					if (iNdEx + skippy) > postIndex {
@@ -6521,15 +6914,13 @@ func (m *ContainerCreateUpdate) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthApi
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthApi
 			}
 			if (iNdEx + skippy) > l {
 				return io.ErrUnexpectedEOF
 			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
 			iNdEx += skippy
 		}
 	}
@@ -6752,7 +7143,7 @@ func (m *ContainerUpdate) Unmarshal(dAtA []byte) error {
 					if err != nil {
 						return err
 					}
-					if skippy < 0 {
+					if (skippy < 0) || (iNdEx+skippy) < 0 {
 						return ErrInvalidLengthApi
 					}
 					if (iNdEx + skippy) > postIndex {
@@ -6769,15 +7160,13 @@ func (m *ContainerUpdate) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthApi
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthApi
 			}
 			if (iNdEx + skippy) > l {
 				return io.ErrUnexpectedEOF
 			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
 			iNdEx += skippy
 		}
 	}
@@ -7028,7 +7417,7 @@ func (m *Container) Unmarshal(dAtA []byte) error {
 					if err != nil {
 						return err
 					}
-					if skippy < 0 {
+					if (skippy < 0) || (iNdEx+skippy) < 0 {
 						return ErrInvalidLengthApi
 					}
 					if (iNdEx + skippy) > postIndex {
@@ -7155,7 +7544,7 @@ func (m *Container) Unmarshal(dAtA []byte) error {
 					if err != nil {
 						return err
 					}
-					if skippy < 0 {
+					if (skippy < 0) || (iNdEx+skippy) < 0 {
 						return ErrInvalidLengthApi
 					}
 					if (iNdEx + skippy) > postIndex {
@@ -7374,15 +7763,13 @@ func (m *Container) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthApi
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthApi
 			}
 			if (iNdEx + skippy) > l {
 				return io.ErrUnexpectedEOF
 			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
 			iNdEx += skippy
 		}
 	}
@@ -7463,15 +7850,13 @@ func (m *RunPodSandboxRequest) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthApi
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthApi
 			}
 			if (iNdEx + skippy) > l {
 				return io.ErrUnexpectedEOF
 			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
 			iNdEx += skippy
 		}
 	}
@@ -7552,15 +7937,13 @@ func (m *StopPodSandboxRequest) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthApi
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthApi
 			}
 			if (iNdEx + skippy) > l {
 				return io.ErrUnexpectedEOF
 			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
 			iNdEx += skippy
 		}
 	}
@@ -7641,15 +8024,13 @@ func (m *RemovePodSandboxRequest) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthApi
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthApi
 			}
 			if (iNdEx + skippy) > l {
 				return io.ErrUnexpectedEOF
 			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
 			iNdEx += skippy
 		}
 	}
@@ -7766,15 +8147,13 @@ func (m *CreateContainerRequest) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthApi
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthApi
 			}
 			if (iNdEx + skippy) > l {
 				return io.ErrUnexpectedEOF
 			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
 			iNdEx += skippy
 		}
 	}
@@ -7889,15 +8268,13 @@ func (m *CreateContainerResponse) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthApi
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthApi
 			}
 			if (iNdEx + skippy) > l {
 				return io.ErrUnexpectedEOF
 			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
 			iNdEx += skippy
 		}
 	}
@@ -8014,15 +8391,13 @@ func (m *StartContainerRequest) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthApi
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthApi
 			}
 			if (iNdEx + skippy) > l {
 				return io.ErrUnexpectedEOF
 			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
 			iNdEx += skippy
 		}
 	}
@@ -8285,7 +8660,7 @@ func (m *UpdateContainerRequest) Unmarshal(dAtA []byte) error {
 					if err != nil {
 						return err
 					}
-					if skippy < 0 {
+					if (skippy < 0) || (iNdEx+skippy) < 0 {
 						return ErrInvalidLengthApi
 					}
 					if (iNdEx + skippy) > postIndex {
@@ -8302,15 +8677,13 @@ func (m *UpdateContainerRequest) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthApi
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthApi
 			}
 			if (iNdEx + skippy) > l {
 				return io.ErrUnexpectedEOF
 			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
 			iNdEx += skippy
 		}
 	}
@@ -8389,15 +8762,13 @@ func (m *UpdateContainerResponse) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthApi
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthApi
 			}
 			if (iNdEx + skippy) > l {
 				return io.ErrUnexpectedEOF
 			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
 			iNdEx += skippy
 		}
 	}
@@ -8514,15 +8885,13 @@ func (m *StopContainerRequest) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthApi
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthApi
 			}
 			if (iNdEx + skippy) > l {
 				return io.ErrUnexpectedEOF
 			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
 			iNdEx += skippy
 		}
 	}
@@ -8601,15 +8970,13 @@ func (m *StopContainerResponse) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthApi
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthApi
 			}
 			if (iNdEx + skippy) > l {
 				return io.ErrUnexpectedEOF
 			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
 			iNdEx += skippy
 		}
 	}
@@ -8726,15 +9093,13 @@ func (m *RemoveContainerRequest) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthApi
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthApi
 			}
 			if (iNdEx + skippy) > l {
 				return io.ErrUnexpectedEOF
 			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
 			iNdEx += skippy
 		}
 	}
@@ -8847,15 +9212,13 @@ func (m *SynchronizeRequest) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthApi
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthApi
 			}
 			if (iNdEx + skippy) > l {
 				return io.ErrUnexpectedEOF
 			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
 			iNdEx += skippy
 		}
 	}
@@ -8934,15 +9297,13 @@ func (m *SynchronizeResponse) Unmarshal(dAtA []byte) error {
 			if err != nil {
 				return err
 			}
-			if skippy < 0 {
-				return ErrInvalidLengthApi
-			}
-			if (iNdEx + skippy) < 0 {
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
 				return ErrInvalidLengthApi
 			}
 			if (iNdEx + skippy) > l {
 				return io.ErrUnexpectedEOF
 			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
 			iNdEx += skippy
 		}
 	}
