@@ -73,6 +73,12 @@ type Mux interface {
 	// connection. Subsequent calls to Accept() will block until the
 	// connection is closed then return io.EOF.
 	Listen(ConnID) (net.Listener, error)
+
+	// Trunk returns the trunk connection for the Mux.
+	Trunk() net.Conn
+
+	// Unblock unblocks the Mux reader.
+	Unblock()
 }
 
 // ConnID uniquely identifies a logical connection within a Mux.
@@ -85,9 +91,18 @@ const (
 	LowestConnID
 )
 
+// Option to apply to a Mux.
+type Option func(*mux)
+
+func WithBlockedRead() Option {
+	return func (m *mux) {
+		m.blockC = make(chan struct{})
+	}
+}
+
 // Multiplex returns a multiplexer for the given connection.
-func Multiplex(trunk net.Conn) Mux {
-	return newMux(trunk)
+func Multiplex(trunk net.Conn, options ...Option) Mux {
+	return newMux(trunk, options...)
 }
 
 // mux is our implementation of Mux.
@@ -98,6 +113,8 @@ type mux struct {
 	connLock  sync.RWMutex
 	errOnce   sync.Once
 	err       error
+	unblkOnce sync.Once
+	blockC    chan struct{}
 	closeOnce sync.Once
 	doneC     chan struct{}
 }
@@ -121,16 +138,35 @@ type conn struct {
 
 }
 
-func newMux(trunk net.Conn) *mux {
+func newMux(trunk net.Conn, options ...Option) *mux {
 	m := &mux{
 		trunk: trunk,
 		conns: make(map[ConnID]*conn),
 		doneC: make(chan struct{}),
 	}
 
+	for _, o := range options {
+		o(m)
+	}
+
 	go m.reader()
 
 	return m
+}
+
+func (m *mux) Trunk() net.Conn {
+	return m.trunk
+}
+
+func (m *mux) Unblock() {
+	Debug("mux: unblocking")
+
+	m.unblkOnce.Do(func () {
+		if m.blockC != nil {
+			close(m.blockC)
+			m.blockC = nil
+		}
+	})
 }
 
 func (m *mux) Open(id ConnID) (net.Conn, error) {
@@ -226,6 +262,12 @@ func (m *mux) reader() {
 		buf []byte
 		err error
 	)
+
+	Debug("mux: waiting for getting unblocked...")
+	if m.blockC != nil {
+		<- m.blockC
+	}
+	Debug("mux: got unblocked...")
 
 	for {
 		select {
