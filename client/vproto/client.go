@@ -212,7 +212,7 @@ func (c *Client) acceptConnections() {
 			plugin.close()
 		}
 
-		log.Infof("NRI: registered dynmic plugin `%s`", plugin.id)
+		log.Infof("NRI: registered dynamic plugin `%s`", plugin.id)
 	}
 }
 

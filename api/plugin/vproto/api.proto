@@ -26,14 +26,20 @@ option go_package = "github.com/containerd/nri/api/plugin/vproto;vproto";
 option (gogoproto.goproto_getters_all) = true;
 
 
+
+//
+// Runtime defines the API the NRI infrastructure implements for plugins.
+//
+// Plugins can use this interface to request unsolicited updates
+// (to the resources assigned to) an arbitrary set of containers.
+//
 service Runtime {
-  // AdjustContainers is an unsolicited update to containers initiated by the plugin.
+  // AdjustContainers requests an unsolicited update to a set of containers.
   rpc AdjustContainers(AdjustContainersRequest) returns(AdjustContainersResponse);
   // XXX a temporary dummy request to test connection multiplexing.
   rpc Ping(PingRequest) returns(PingResponse);
 }
 
-// AdjustContainersRequest describes container adjustments requested by a plugin.
 message AdjustContainersRequest {
   repeated ContainerUpdate updates = 1;
 }

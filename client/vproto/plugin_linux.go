@@ -79,7 +79,10 @@ func startStaticPlugin(dir, name, conf string) (p *plugin, retErr error) {
 		return nil, errors.Wrap(err, "failed to open mux plugin connection")
 	}
 
-	ttrpcc := ttrpc.NewClient(pconn)
+	ttrpcc := ttrpc.NewClient(pconn, ttrpc.WithOnClose(
+		func () {
+			log.Info("connection to plugin %s down...", name)
+		}))
 	client := api.NewPluginClient(ttrpcc)
 	p = &plugin{
 		name:   name,
@@ -117,8 +120,10 @@ func newDynamicPlugin(conn stdnet.Conn) (*plugin, error) {
 		return nil, errors.Wrap(err, "failed to open mux plugin connection")
 	}
 
-	ttrpcc := ttrpc.NewClient(rconn)
-
+	ttrpcc := ttrpc.NewClient(rconn, ttrpc.WithOnClose(
+		func () {
+			log.Info("connection to a dynamic plugin is down...")
+		}))
 	client := api.NewPluginClient(ttrpcc)
 	p := &plugin{
 		conn:   conn,

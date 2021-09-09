@@ -86,7 +86,6 @@ func (Event) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_00212fb1f9d3bf1c, []int{0}
 }
 
-// AdjustContainersRequest describes container adjustments requested by a plugin.
 type AdjustContainersRequest struct {
 	Updates              []*ContainerUpdate `protobuf:"bytes,1,rep,name=updates,proto3" json:"updates,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}           `json:"-"`
