@@ -93,6 +93,11 @@ service Plugin {
   // RemoveContainer relays the corresponsing request/event to the plugin.
   rpc RemoveContainer(RemoveContainerEvent) returns (Empty);
 
+
+  // OCICreateContainer relays the corresponding request to the plugin.
+  // The plugin is can adjust the container being created and any other
+  // already created containers in response.
+  rpc OCICreateContainer(OCICreateContainerRequest) returns (OCICreateContainerResponse);
 }
 
 message ConfigureRequest {
@@ -285,7 +290,7 @@ message Hook {
   string path = 1;
   repeated string args = 2;
   repeated string env = 3;
-  int32 timeout = 4;
+  IntValue timeout = 4;
 }
 
 message ContainerCreateAdjustment {
@@ -305,3 +310,121 @@ message ContainerAdjustment {
   bool ignore_failure = 4;
 }
 
+message OCICreateContainerRequest {
+  OCIContainer container = 2;
+}
+
+message OCICreateContainerResponse {
+}
+
+message OCIContainer {
+    string container_id = 1;
+    Spec spec = 2;
+}
+
+message Spec {
+    Process process = 1;
+    repeated OCIMount mounts = 2;
+    Hooks hooks = 3;
+    map<string, string> annotations = 4;
+    Linux linux = 5;
+}
+
+message Process {
+    repeated string args = 1;
+    repeated string env = 2;
+    IntValue oom_score_adj = 3;
+}
+
+message OCIMount {
+    string destination = 1;
+    string type = 2;
+    string source = 3;
+    repeated string options = 4;
+}
+
+message Linux {
+    LinuxResources resources = 1;
+    string cgroups_path = 2;
+    repeated LinuxNamespace namespaces = 3;
+    repeated LinuxDevice devices = 4;
+    
+}
+
+message LinuxNamespace {
+    string type = 1;
+    string path = 2;
+}
+
+message LinuxResources {
+    repeated LinuxDeviceCgroup devices = 1;
+    LinuxMemory memory = 2;
+    LinuxCPU cpu = 3;
+    repeated HugepageLimit hugepage_limits = 4;
+    string blockio_class = 5;
+    string rdt_class = 6;
+}
+
+message LinuxMemory {
+    Int64Value limit = 1;
+    Int64Value reservation = 2;
+    Int64Value swap = 3;
+    Int64Value kernel = 4;
+    Int64Value kernel_tcp = 5;
+    UInt64Value swappiness = 6;
+    BoolValue disable_oom_killer = 7;
+    BoolValue use_hierarchy = 8;
+}
+
+message LinuxCPU {
+    UInt64Value shares = 1;
+    Int64Value quota = 2;
+    UInt64Value period = 3;
+    Int64Value realtime_runtime = 4;
+    UInt64Value realtime_period = 5;
+    string cpus = 6;
+    string mems = 7;
+}
+
+
+message LinuxDevice {
+    string path = 1;
+    string type = 2;
+    int64 major = 3;
+    int64 minor = 4;
+    UInt32Value file_mode = 5;
+    UInt32Value uid = 6;
+    UInt32Value gid = 7;
+}
+
+message LinuxDeviceCgroup {
+    bool allow = 1;
+    string type = 2;
+    Int64Value major = 3;
+    Int64Value minor = 4;
+    string access = 5;
+}
+
+message IntValue {
+  int64 value = 1;
+}
+
+message Int32Value {
+    int32 value = 1;
+}
+
+message UInt32Value {
+    uint32 value = 1;
+}
+
+message Int64Value {
+    int64 value = 1;
+}
+
+message UInt64Value {
+    uint64 value = 1;
+}
+
+message BoolValue {
+    bool value = 1;
+}

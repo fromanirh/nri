@@ -567,6 +567,24 @@ func (p *plugin) removeContainer(ctx context.Context, req *RemoveContainerReques
 	return err
 }
 
+// Relay OCICreateContainer request to plugin.
+func (p *plugin) ociCreateContainer(ctx context.Context, req *OCICreateContainerRequest) (*OCICreateContainerResponse, error) {
+	if !p.subcribedEvent(createContainer) {
+		return nil, nil
+	}
+
+	rpl, err := p.stub.OCICreateContainer(ctx, req)
+	if err != nil {
+		if err == ttrpc.ErrClosed {
+			p.close()
+			err = nil
+		}
+		return nil, err
+	}
+
+	return rpl, nil
+}
+
 // Check if the plugin has subscribed for an event.
 func (p *plugin) subcribedEvent(e int) bool {
 	return p.events&e != 0

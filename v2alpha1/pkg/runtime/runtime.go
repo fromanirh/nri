@@ -345,6 +345,22 @@ func (r *Runtime) RemoveContainer(ctx context.Context, req *RemoveContainerReque
 	return nil
 }
 
+// OCICreateContainer relays the corresponding CRI request to plugins.
+func (r *Runtime) OCICreateContainer(ctx context.Context, req *OCICreateContainerRequest) (*OCICreateContainerResponse, error) {
+	r.Lock()
+	defer r.Unlock()
+	defer r.removeClosedPlugins()
+
+	for _, plugin := range r.plugins {
+		_, err := plugin.ociCreateContainer(ctx, req)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return &OCICreateContainerResponse{}, nil
+}
+
 // Perform a set of unsolicited container adjustments requested by a plugin.
 func (r *Runtime) adjustContainers(ctx context.Context, req []*ContainerAdjustment) ([]*ContainerAdjustment, error) {
 	r.Lock()

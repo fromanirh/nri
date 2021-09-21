@@ -56,6 +56,7 @@ type Plugin interface {
 	PostUpdateContainer(*api.PodSandbox, *api.Container)
 	StopContainer(*api.PodSandbox, *api.Container) ([]*api.ContainerAdjustment, error)
 	RemoveContainer(*api.PodSandbox, *api.Container)
+	OCICreateContainer(*api.OCIContainer) (error)
 }
 
 type Stub interface {
@@ -494,6 +495,15 @@ func (p *stub) RemoveContainer(ctx context.Context, req *api.RemoveContainerRequ
 	p.plugin.PostUpdateContainer(req.Pod, req.Container)
 	return &api.RemoveContainerResponse{}, nil
 }
+
+// OCICreateContainer request handler.
+func (p *stub) OCICreateContainer(ctx context.Context, req *api.OCICreateContainerRequest) (*api.OCICreateContainerResponse, error) {
+	err := p.plugin.OCICreateContainer(req.Container)
+	return &api.OCICreateContainerResponse{
+	}, err
+}
+
+
 
 // Connect returns a connection to the NRI/runtime.
 func Connect() (stdnet.Conn, error) {

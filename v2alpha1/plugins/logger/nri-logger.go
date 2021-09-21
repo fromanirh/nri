@@ -119,6 +119,11 @@ func (p *plugin) RemoveContainer(pod *api.PodSandbox, container *api.Container) 
 	p.dump("RemoveContainer", "pod", pod, "container", container)
 }
 
+func (p *plugin) OCICreateContainer(container *api.OCIContainer) error {
+	p.dump("OCICreateContainer", "container", container)
+	return nil
+}
+
 // dump a message.
 func (p *plugin) dump(msgType string, args ...interface{}) {
 	if len(args) & 0x1 == 1 {

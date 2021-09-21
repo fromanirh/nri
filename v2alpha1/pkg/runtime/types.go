@@ -44,6 +44,9 @@ type (
 	RemoveContainerRequest   = api.RemoveContainerRequest
 	RemoveContainerResponse  = api.RemoveContainerResponse
 
+	OCICreateContainerRequest   = api.OCICreateContainerRequest
+	OCICreateContainerResponse  = api.OCICreateContainerResponse
+
 	PostCreateContainerRequest  = api.PostCreateContainerRequest
 	PostCreateContainerResponse = api.PostCreateContainerResponse
 	PostStartContainerRequest   = api.PostStartContainerRequest
@@ -65,4 +68,6 @@ type (
 	HugepageLimit             = api.HugepageLimit
 	Hook                      = api.Hook
 	Hooks                     = api.Hooks
+
+	OCIContainer              = api.OCIContainer
 )
