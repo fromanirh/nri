@@ -25,7 +25,7 @@ TTRPC_COMPILE = protoc $(TTRPC_OPTIONS)
 GO_CMD   := go
 GO_BUILD := $(GO_CMD) build
 
-PLUGINS := bin/logger
+PLUGINS := bin/logger bin/cpumanager
 
 all: build
 
@@ -45,5 +45,12 @@ bin/logger: $(wildcard v2alpha1/plugins/logger/*.go)
 	@echo "Building $@..."; \
 	$(GO_BUILD) -o $@ ./$(dir $<)
 
+bin/cpumanager: $(wildcard v2alpha1/plugins/cpumanager/*.go)
+	@echo "Building $@..."; \
+	$(GO_BUILD) -o $@ ./$(dir $<)
+
 install-ttrpc-plugin:
 	go install github.com/containerd/ttrpc/cmd/protoc-gen-gogottrpc
+
+clean:
+	[ -d bin ] && rm -rf bin
